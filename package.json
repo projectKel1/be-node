@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon ./src/main.ts",
-    "build": "npx tsc --build"
+    "build": "npx tsc --build",
+    "start": "node ./build/main.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
