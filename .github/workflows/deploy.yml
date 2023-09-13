@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 18
       
-      - name: connet to ec2 aws
+      - name: connect to ec2 aws
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST }}
