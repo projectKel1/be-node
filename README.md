@@ -26,6 +26,7 @@
 - `npm run dev` Running application in development
 - `npm run build` Build application
 - `npm run start` Running application
+- `npm run seed` Running seeder in development
 
 To run your application in production, we suggest you to using `pm2` with a built-in load balancer. It allows you to keep applications alive forever, to reload them without downtime and to facilitate common system admin tasks. For more information, you can visit [pm2 documentation](https://pm2.keymetrics.io/docs/usage/quick-start/)
 
