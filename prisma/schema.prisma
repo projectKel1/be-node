@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model RequestLeave {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  reason       String
+  started_date DateTime
+  ended_date   DateTime
+  url_proof    String?
+  status       EnumLeaveStatus
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+
+  enum EnumLeaveStatus {
+    Pending
+    Approved
+    Rejected
+  }
+}
+
+model RequestReimbursement {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  description String
+  type        EnumReimbursementType
+  nominal     BigInt
+  url_proof   String?
+  status      EnumReimbursementStatus
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  enum EnumReimbursementType {
+    Type1
+    Type2
+  }
+
+  enum EnumReimbursementStatus {
+    Pending
+    Approved
+    Rejected
+  }
+}
+
+model Attendance {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  is_checkout Boolean
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+}
+
+model Target {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  product     String
+  quantity    Int
+  ended_date  DateTime
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+}
+
+model TargetReport {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  target_id   Int
+  status      EnumReportStatus
+  url_proof   String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  enum EnumReportStatus {
+    Pending
+    Approved
+    Rejected
+  }
+}
+
+model HRActivityLog {
+  id             Int      @id @default(autoincrement())
+  user_id        Int
+  log_type       EnumActivityLogType
+  leave_id       Int?
+  reimbursement_id Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  deleted_at     DateTime?
+
+  enum EnumActivityLogType {
+    Leaves
+    Reimburse
+  }
+}
