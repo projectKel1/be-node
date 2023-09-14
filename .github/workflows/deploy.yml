@@ -27,5 +27,7 @@ jobs:
             cd /var/www/be-node
             git pull origin master
             npm install
+            npx prisma generate
+            npx prisma db push
             npm run build
             pm2 restart be-node
