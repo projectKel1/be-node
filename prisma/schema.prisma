@@ -11,111 +11,52 @@ datasource db {
 }
 
 model RequestLeave {
-  id           Int       @id @default(autoincrement())
+  id           Int                @id @default(autoincrement())
   user_id      Int
-  reason       String   @db.LongText
+  reason       String             @db.LongText
   started_date DateTime
   ended_date   DateTime
   url_proof    String?
-  status       EnumLeaveStatus
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  status       EnumLeaveStatus    @default(pending)
+  created_at   DateTime           @default(now())
+  updated_at   DateTime           @updatedAt
   deleted_at   DateTime?
 
   @@map("request_leaves")
 }
 
 enum EnumLeaveStatus {
-  Pending
-  Approved
-  Rejected
+  pending
+  approved_lead
+  approved_hr
+  reject
 }
 
-model RequestReimbursement {
+model RequestReimburses {
   id          Int                         @id @default(autoincrement())
   user_id     Int
   description String                      @db.LongText
-  type        EnumReimbursementType
+  type        EnumReimbursesType
   nominal     BigInt
   url_proof   String?
-  status      EnumReimbursementStatus     @default(Pending)
+  status      EnumReimbursesStatus        @default(pending)
   created_at  DateTime                    @default(now())
   updated_at  DateTime                    @updatedAt
   deleted_at  DateTime?
 
-  @@map("request_reimbursments")
+  @@map("request_reimburses")
 }
 
-enum EnumReimbursementType {
-  Transportation
-  Dentist
-  Glasses
-  Others
+enum EnumReimbursesType {
+  transportation
+  dentist
+  glassess
+  others
 }
 
-enum EnumReimbursementStatus {
-  Pending
-  Approved
-  Rejected
-}
-
-model Attendance {
-  id          Int           @id @default(autoincrement())
-  user_id     Int
-  is_checkout Boolean
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @updatedAt
-  deleted_at  DateTime?
-
-  @@map("attendances")
-}
-
-model Target {
-  id          Int           @id @default(autoincrement())
-  user_id     Int
-  product     String
-  quantity    Int
-  ended_date  DateTime
-  created_at  DateTime      @default(now())
-  updated_at  DateTime      @updatedAt
-  deleted_at  DateTime?
-
-  @@map("targets")
-}
-
-model TargetReport {
-  id          Int                 @id @default(autoincrement())
-  user_id     Int
-  target_id   Int
-  status      EnumReportStatus    @default(Pending)
-  url_proof   String?
-  created_at  DateTime            @default(now())
-  updated_at  DateTime            @updatedAt
-  deleted_at  DateTime?
-
-  @@map("target_reports")
-}
-
-enum EnumReportStatus {
-  Pending
-  Approved
-  Rejected
-}
-
-model HRActivityLog {
-  id             Int                      @id @default(autoincrement())
-  user_id        Int
-  log_type       EnumActivityLogType
-  leave_id       Int?
-  reimbursement_id Int?
-  created_at     DateTime                 @default(now())
-  updated_at     DateTime                 @updatedAt
-  deleted_at     DateTime?
-
-  @@map("hr_activity_logs")
-}
-
-enum EnumActivityLogType {
-  Leaves
-  Reimburse
+enum EnumReimbursesStatus {
+  pending
+  approved_lead
+  approved_hr
+  reject
 }
