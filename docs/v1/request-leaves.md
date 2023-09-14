@@ -12,10 +12,11 @@ https://node.flattenbot.site/v1
 
 - Params Query
 
-| **Params**     | **Type**     | **Description**     | **Required** |
-| -------------  | ------------ | ------------------- | :----------: |
-| page           | int          | current page        | false        |
-| sortBy         | string       | sort by status data | false        |
+| **Params**     | **Type**     | **Description**       | **Required** |
+| -------------  | ------------ | --------------------- | :----------: |
+| page           | int          | current page          | false        |
+| status         | string       | search by status data | false        |
+| user           | int          | search by user id     | false        |
 
 - Example successfully response `Status: 200 OK`
 
