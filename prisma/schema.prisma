@@ -22,11 +22,13 @@ model RequestLeave {
   updated_at   DateTime  @updatedAt
   deleted_at   DateTime?
 
-  enum EnumLeaveStatus {
-    Pending
-    Approved
-    Rejected
-  }
+  @@map("request_leaves")
+}
+
+enum EnumLeaveStatus {
+  Pending
+  Approved
+  Rejected
 }
 
 model RequestReimbursement {
@@ -41,16 +43,18 @@ model RequestReimbursement {
   updated_at  DateTime  @updatedAt
   deleted_at  DateTime?
 
-  enum EnumReimbursementType {
-    Type1
-    Type2
-  }
+  @@map("request_reimbursments")
+}
 
-  enum EnumReimbursementStatus {
-    Pending
-    Approved
-    Rejected
-  }
+enum EnumReimbursementType {
+  Type1
+  Type2
+}
+
+enum EnumReimbursementStatus {
+  Pending
+  Approved
+  Rejected
 }
 
 model Attendance {
@@ -60,6 +64,8 @@ model Attendance {
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
   deleted_at  DateTime?
+
+  @@map("attendances")
 }
 
 model Target {
@@ -71,6 +77,8 @@ model Target {
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
   deleted_at  DateTime?
+
+  @@map("targets")
 }
 
 model TargetReport {
@@ -83,11 +91,13 @@ model TargetReport {
   updated_at  DateTime  @updatedAt
   deleted_at  DateTime?
 
-  enum EnumReportStatus {
-    Pending
-    Approved
-    Rejected
-  }
+  @@map("target_reports")
+}
+
+enum EnumReportStatus {
+  Pending
+  Approved
+  Rejected
 }
 
 model HRActivityLog {
@@ -100,8 +110,10 @@ model HRActivityLog {
   updated_at     DateTime @updatedAt
   deleted_at     DateTime?
 
-  enum EnumActivityLogType {
-    Leaves
-    Reimburse
-  }
+  @@map("hr_activity_logs")
+}
+
+enum EnumActivityLogType {
+  Leaves
+  Reimburse
 }
