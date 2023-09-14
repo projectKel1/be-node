@@ -32,23 +32,25 @@ enum EnumLeaveStatus {
 }
 
 model RequestReimbursement {
-  id          Int       @id @default(autoincrement())
+  id          Int                         @id @default(autoincrement())
   user_id     Int
   description String
   type        EnumReimbursementType
   nominal     BigInt
   url_proof   String?
-  status      EnumReimbursementStatus
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  status      EnumReimbursementStatus     @default(Pending)
+  created_at  DateTime                    @default(now())
+  updated_at  DateTime                    @updatedAt
   deleted_at  DateTime?
 
   @@map("request_reimbursments")
 }
 
 enum EnumReimbursementType {
-  Type1
-  Type2
+  Transportation
+  Dentist
+  Glasses
+  Others
 }
 
 enum EnumReimbursementStatus {
@@ -58,37 +60,37 @@ enum EnumReimbursementStatus {
 }
 
 model Attendance {
-  id          Int       @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   user_id     Int
   is_checkout Boolean
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
   deleted_at  DateTime?
 
   @@map("attendances")
 }
 
 model Target {
-  id          Int       @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   user_id     Int
   product     String
   quantity    Int
   ended_date  DateTime
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
   deleted_at  DateTime?
 
   @@map("targets")
 }
 
 model TargetReport {
-  id          Int       @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   user_id     Int
   target_id   Int
-  status      EnumReportStatus
+  status      EnumReportStatus    @default(Pending)
   url_proof   String?
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
+  created_at  DateTime            @default(now())
+  updated_at  DateTime            @updatedAt
   deleted_at  DateTime?
 
   @@map("target_reports")
@@ -101,13 +103,13 @@ enum EnumReportStatus {
 }
 
 model HRActivityLog {
-  id             Int      @id @default(autoincrement())
+  id             Int                      @id @default(autoincrement())
   user_id        Int
   log_type       EnumActivityLogType
   leave_id       Int?
   reimbursement_id Int?
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
+  created_at     DateTime                 @default(now())
+  updated_at     DateTime                 @updatedAt
   deleted_at     DateTime?
 
   @@map("hr_activity_logs")
