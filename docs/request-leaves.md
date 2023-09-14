@@ -1,9 +1,9 @@
-# Documentation
+# Documentation Request Leaves
 
 ## API Endpoint
 
 ```
-https://node.flattenbot.site/v1
+https://node.flattenbot.site
 ```
 
 ### Get data request-leaves
@@ -18,7 +18,7 @@ https://node.flattenbot.site/v1
 | status         | string       | search by status data | false        |
 | user           | int          | search by user id     | false        |
 
-- Example successfully response `Status: 200 OK`
+- Example success response `Status: 200 OK`
 
 ```json
 {
@@ -42,6 +42,17 @@ https://node.flattenbot.site/v1
 }
 ```
 
+- Example failed response `Status: 404 Not found`
+
+```json
+{
+    "status_code": 404,
+    "result": "error",
+    "message": "data not found",
+    "data": []
+}
+```
+
 ### Create request-leaves
 
 - POST `/request-leaves`
@@ -56,7 +67,7 @@ https://node.flattenbot.site/v1
 | ended_date    | datetime    | true         |
 | url_proof     | string      | false        |
 
-- Example successfully response `Status: 200 OK`
+- Example success response `Status: 200 OK`
 
 ```json
 {
@@ -66,7 +77,7 @@ https://node.flattenbot.site/v1
 }
 ```
 
-- Example successfully response `Status: 400 Bad request`
+- Example failed response `Status: 400 Bad request`
 
 ```json
 {
@@ -82,7 +93,7 @@ https://node.flattenbot.site/v1
 
 - GET `/request-leaves/:user_id`
 
-- Example successfully response `Status: 200 OK`
+- Example success response `Status: 200 OK`
 
 ```json
 {
@@ -129,7 +140,7 @@ https://node.flattenbot.site/v1
 | ended_date    | datetime    | true         |
 | url_proof     | string      | false        |
 
-- Example successfully response `Status: 200 OK`
+- Example success response `Status: 200 OK`
 
 ```json
 {
@@ -151,7 +162,7 @@ https://node.flattenbot.site/v1
 }
 ```
 
-- Example successfully response `Status: 400 Bad request`
+- Example failed response `Status: 400 Bad request`
 
 ```json
 {
@@ -167,7 +178,7 @@ https://node.flattenbot.site/v1
 
 - DELETE `/request-leaves/:leaves_id`
 
-- Example successfully response `Status: 200 OK`
+- Example success response `Status: 200 OK`
 
 ```json
 {
@@ -177,7 +188,7 @@ https://node.flattenbot.site/v1
 }
 ```
 
-- Example successfully response `Status: 404 Not found`
+- Example failed response `Status: 404 Not found`
 
 ```json
 {
