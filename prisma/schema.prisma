@@ -13,7 +13,7 @@ datasource db {
 model RequestLeave {
   id           Int       @id @default(autoincrement())
   user_id      Int
-  reason       String
+  reason       String   @db.LongText
   started_date DateTime
   ended_date   DateTime
   url_proof    String?
@@ -34,7 +34,7 @@ enum EnumLeaveStatus {
 model RequestReimbursement {
   id          Int                         @id @default(autoincrement())
   user_id     Int
-  description String
+  description String                      @db.LongText
   type        EnumReimbursementType
   nominal     BigInt
   url_proof   String?
