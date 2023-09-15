@@ -53,6 +53,16 @@ https://node.flattenbot.site
 }
 ```
 
+- Example failed response `Status: 400 Bad request`
+
+```json
+{
+    "status_code": 400,
+    "result": "error",
+    "message": "invalid params query",
+}
+```
+
 ### Create request-reimbursment
 
 - POST `/request-reimbursment`
