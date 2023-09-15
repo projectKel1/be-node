@@ -68,12 +68,12 @@ export const getAllData = async (req: Request, res: Response) => {
 
 export const createData = async (req: Request, res: Response) => {
 
-    const { description, type, nominal, url_proof } = req.body
+    const { user_id, description, type, nominal, url_proof } = req.body
     let requestReimburses: Prisma.RequestReimbursesCreateInput
 
     try {
         requestReimburses = {
-            user_id: 5,
+            user_id: parseInt(user_id),
             description: description,
             type: type,
             nominal: BigInt(nominal),
@@ -95,6 +95,42 @@ export const createData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'record has been created'
+    })
+
+}
+
+export const detailsData = async (req: Request, res: Response) => {
+
+    let data: any
+
+    try {
+        data = await prisma.requestReimburses.findFirst({
+            where: {
+                id: parseInt(req.params.reimbursment_id)
+            }
+        })
+    } catch (error: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: 'internal server error'
+        })
+    } 
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'data not found',
+        data: []
+    })
+
+    data.nominal = data.nominal.toString()
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully fetch data',
+        data: data
     })
 
 }
