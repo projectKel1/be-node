@@ -68,12 +68,12 @@ export const getAllData = async (req: Request, res: Response) => {
 
 export const createData = async (req: Request, res: Response) => {
 
-    const { description, type, nominal, url_proof } = req.body
+    const { user_id, description, type, nominal, url_proof } = req.body
     let requestReimburses: Prisma.RequestReimbursesCreateInput
 
     try {
         requestReimburses = {
-            user_id: 5,
+            user_id: user_id,
             description: description,
             type: type,
             nominal: BigInt(nominal),
