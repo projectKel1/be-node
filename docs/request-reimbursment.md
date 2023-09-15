@@ -146,6 +146,16 @@ https://node.flattenbot.site
 }
 ```
 
+- Example failed response `Status: 500 Internal server error`
+
+```json
+{
+    "status_code": 500,
+    "result": "error",
+    "message": "internal server error",
+}
+```
+
 ### Update request-reimbursment
 
 - PUT `/request-reimbursment/:reimbursment_id`
