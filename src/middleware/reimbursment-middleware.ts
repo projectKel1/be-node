@@ -36,12 +36,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             })
         ,
         url_proof: Joi.string()
-            .required()
-            .empty()
-            .messages({
-                'any.required': 'url_proof field is required',
-                'string.empty': 'url_proof field cannot has empty value',
-            })
     })
 
     try {
