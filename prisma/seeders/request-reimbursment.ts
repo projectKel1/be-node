@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 const initSeeder = async () => {
 
     let numbers = 50
-    let requestLeave: Prisma.RequestLeaveCreateInput
+    let requestReimburses: Prisma.RequestReimbursesCreateInput
 
     enum status {
         pending = "pending",
@@ -15,21 +15,25 @@ const initSeeder = async () => {
         reject = "reject"
     }
 
+    enum type {
+        transportation = "transportation",
+        dentist = "dentist",
+        glassess = "glassess",
+        others = "others"
+    }
+
     for(let i = 0; i < numbers; i++) {
 
-        requestLeave = {
+        requestReimburses = {
             user_id: faker.number.int({
                 min: 1,
                 max: 100
             }),
-            reason: faker.lorem.paragraph(),
-            started_date: faker.date.soon({
-                days: 10,
-                refDate: '2020-09-16T00:00:00.000Z'
-            }),
-            ended_date: faker.date.soon({
-                days: 5,
-                refDate: '2020-01-26T00:00:00.000Z'
+            description: faker.lorem.paragraph(),
+            type: faker.helpers.enumValue(type),
+            nominal: faker.number.bigInt({
+                min: 50000,
+                max: 5000000
             }),
             url_proof: faker.image.url(),
             status: faker.helpers.enumValue(status),
@@ -43,17 +47,17 @@ const initSeeder = async () => {
             })
         }
 
-        await prisma.requestLeave.create({
-            data: requestLeave
+        await prisma.requestReimburses.create({
+            data: requestReimburses
         })
 
     }
 
 }
 
-export const startRequestLeaves = async () => {
+export const startRequestReimburses = async () => {
     try {
-        console.log('Seeding table request_leaves');
+        console.log('Seeding table request_reimburses');
         await initSeeder()
         console.log('Success');
     } catch (error: any) {
