@@ -34,4 +34,4 @@ To run your application in production, we suggest you to using `pm2` with a buil
 
 ## API Documentation
 
-For details `API documentations` [click here](docs/v1/request-leaves.md)
+For details `API documentations` [click here](docs/request-leaves.md)
