@@ -1,9 +1,9 @@
-# Documentation Target Reports
+# Documentation Target Reports ( Work In Progress )
 
 ## API Endpoint
 
 ```
-https://node.flattenbot.site/v1
+https://node.flattenbot.site
 ```
 
 ### Get data target_reports
