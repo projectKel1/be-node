@@ -70,7 +70,6 @@ export const createData = async (req: Request, res: Response) => {
 
     const { description, type, nominal, url_proof } = req.body
     let requestReimburses: Prisma.RequestReimbursesCreateInput
-    let data: any
 
     try {
         requestReimburses = {
@@ -81,7 +80,7 @@ export const createData = async (req: Request, res: Response) => {
             url_proof: url_proof
         } 
 
-        data = await prisma.requestReimburses.create({
+        await prisma.requestReimburses.create({
             data: requestReimburses
         })
     } catch (err: any) {
@@ -92,6 +91,10 @@ export const createData = async (req: Request, res: Response) => {
         })
     }
 
-    return res.send('a')
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'record has been created'
+    })
 
 }
