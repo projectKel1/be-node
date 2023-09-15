@@ -42,6 +42,26 @@ https://node.flattenbot.site
 }
 ```
 
+- Example failed response `Status: 400 Bad request`
+
+```json
+{
+    "status_code": 400,
+    "result": "error",
+    "message": "invalid params query",
+}
+```
+
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+    "status_code": 401,
+    "result": "error",
+    "message": "unauthorized",
+}
+```
+
 - Example failed response `Status: 404 Not found`
 
 ```json
@@ -50,16 +70,6 @@ https://node.flattenbot.site
     "result": "error",
     "message": "data not found",
     "data": []
-}
-```
-
-- Example failed response `Status: 400 Bad request`
-
-```json
-{
-    "status_code": 400,
-    "result": "error",
-    "message": "invalid params query",
 }
 ```
 
@@ -99,6 +109,16 @@ https://node.flattenbot.site
 }
 ```
 
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+    "status_code": 401,
+    "result": "error",
+    "message": "unauthorized",
+}
+```
+
 - Example failed response `Status: 500 Internal server error`
 
 ```json
@@ -132,6 +152,16 @@ https://node.flattenbot.site
         "updated_date": "17-01-2023",
         "deleted_at": null,
     }
+}
+```
+
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+    "status_code": 401,
+    "result": "error",
+    "message": "unauthorized",
 }
 ```
 
@@ -204,6 +234,16 @@ https://node.flattenbot.site
 }
 ```
 
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+    "status_code": 401,
+    "result": "error",
+    "message": "unauthorized",
+}
+```
+
 ### Delete request-reimbursment
 
 - DELETE `/request-reimbursment/:leaves_id`
@@ -215,6 +255,16 @@ https://node.flattenbot.site
     "status_code": 200,
     "result": "success",
     "message": "record has been deleted",
+}
+```
+
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+    "status_code": 401,
+    "result": "error",
+    "message": "unauthorized",
 }
 ```
 
