@@ -12,7 +12,7 @@ export const getAllData = async (req: Request, res: Response) => {
     // limit pagination
     if(page) {
         page = parseInt(page)
-        if(page > 1) skip = (page * 10) - 10
+        if(page > 1) skip = (page * 5) - 5
         else skip = 0
     }
 
