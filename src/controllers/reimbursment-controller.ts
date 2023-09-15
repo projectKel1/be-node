@@ -50,7 +50,7 @@ export const getAllData = async (req: Request, res: Response) => {
         json.push(data)
     })
 
-    if(!json.length) return res.status(404).json({
+    if(!json.length && page) return res.status(404).json({
         status_code: 404,
         result: 'error',
         message: 'data not found',
