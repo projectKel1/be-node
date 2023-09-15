@@ -1,9 +1,9 @@
-# Documentation HR Actvity log
+# Documentation HR Actvity log ( Work In Progress )
 
 ## API Endpoint
 
 ```
-https://node.flattenbot.site/v1
+https://node.flattenbot.site
 ```
 
 ### Get data hr-activity
