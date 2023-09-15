@@ -107,6 +107,7 @@ https://node.flattenbot.site
     "result": "error",
     "message": "internal server error"
 }
+```
 
 ### Get details request-reimbursment
 
