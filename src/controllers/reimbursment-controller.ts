@@ -98,3 +98,39 @@ export const createData = async (req: Request, res: Response) => {
     })
 
 }
+
+export const detailsData = async (req: Request, res: Response) => {
+
+    let data: any
+
+    try {
+        data = await prisma.requestReimburses.findFirst({
+            where: {
+                id: parseInt(req.params.reimbursment_id)
+            }
+        })
+    } catch (error: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: 'internal server error'
+        })
+    } 
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'data not found',
+        data: []
+    })
+
+    data.nominal = data.nominal.toString()
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully fetch data',
+        data: data
+    })
+
+}
