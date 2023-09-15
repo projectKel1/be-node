@@ -73,7 +73,7 @@ export const createData = async (req: Request, res: Response) => {
 
     try {
         requestReimburses = {
-            user_id: user_id,
+            user_id: parseInt(user_id),
             description: description,
             type: type,
             nominal: BigInt(nominal),

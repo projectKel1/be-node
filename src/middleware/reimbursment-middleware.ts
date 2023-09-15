@@ -4,6 +4,15 @@ import Joi from "joi";
 export default async (req: Request, res: Response, next: NextFunction) => {
 
     const validation = Joi.object({
+        user_id: Joi.number()
+            .required()
+            .empty()
+            .messages({
+                'any.required': 'user_id field is required',
+                'string.empty': 'user_id field cannot has empty value',
+                'number.base': 'user_id field must be a number'
+            })
+        ,
         description: Joi.string()
             .required()
             .empty()
