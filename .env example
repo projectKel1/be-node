@@ -2,6 +2,7 @@
 
 SERVER_PORT=
 DEVELOPMENT=true of false
+SECRET_KEY=
 
 # Database configuration
 
