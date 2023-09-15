@@ -1,9 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
+
+const prisma = new PrismaClient()
 
 export const getAllData = async (req: Request, res: Response) => {
 
-    const prisma = new PrismaClient()
     let data: any
 
     try {
@@ -42,5 +43,35 @@ export const getAllData = async (req: Request, res: Response) => {
         message: 'successfully fetch data',
         data: json
     })
+
+}
+
+export const createData = async (req: Request, res: Response) => {
+
+    const { description, type, nominal, url_proof } = req.body
+    let requestReimburses: Prisma.RequestReimbursesCreateInput
+    let data: any
+
+    try {
+        requestReimburses = {
+            user_id: 5,
+            description: description,
+            type: type,
+            nominal: BigInt(nominal),
+            url_proof: url_proof
+        } 
+
+        data = await prisma.requestReimburses.create({
+            data: requestReimburses
+        })
+    } catch (err: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: 'internal server error'
+        })
+    }
+
+    return res.send('a')
 
 }
