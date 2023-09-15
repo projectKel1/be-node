@@ -1,4 +1,4 @@
-const { prisma } = require('../models/prisma');
+const { prisma } = require('../prisma');
 
 async function createCuti(req, res) {
   try {
