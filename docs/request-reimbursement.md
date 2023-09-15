@@ -1,13 +1,13 @@
-# Documentation Request Reimbursment
+# Documentation Request Reimbursement
 
 ## API Endpoint
 
 ```
 https://node.flattenbot.site
 ```
-### Get data request-reimbursment
+### Get data request-reimbursement
 
-- GET `/request-reimbursment`
+- GET `/request-reimbursement`
 
 - Params Query
 
@@ -73,9 +73,9 @@ https://node.flattenbot.site
 }
 ```
 
-### Create request-reimbursment
+### Create request-reimbursement
 
-- POST `/request-reimbursment`
+- POST `/request-reimbursement`
 
 - Form request body
 
@@ -129,9 +129,9 @@ https://node.flattenbot.site
 }
 ```
 
-### Get details request-reimbursment
+### Get details request-reimbursement
 
-- GET `/request-reimbursment/:user_id`
+- GET `/request-reimbursement/:user_id`
 
 - Example success response `Status: 200 OK`
 
@@ -186,9 +186,9 @@ https://node.flattenbot.site
 }
 ```
 
-### Update request-reimbursment
+### Update request-reimbursement
 
-- PUT `/request-reimbursment/:reimbursment_id`
+- PUT `/request-reimbursement/:reimbursement_id`
 
 - Form request body
 
@@ -244,9 +244,9 @@ https://node.flattenbot.site
 }
 ```
 
-### Delete request-reimbursment
+### Delete request-reimbursement
 
-- DELETE `/request-reimbursment/:leaves_id`
+- DELETE `/request-reimbursement/:leaves_id`
 
 - Example success response `Status: 200 OK`
 
