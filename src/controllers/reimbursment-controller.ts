@@ -6,10 +6,23 @@ const prisma = new PrismaClient()
 export const getAllData = async (req: Request, res: Response) => {
 
     let data: any
+    let skip = 0, take = 20
+    let page: any = req.query.page
+
+    // limit pagination
+    if(page) {
+        page = parseInt(page)
+        if(page > 1) skip = (page * 10) - 10
+        else skip = 0
+    }
+
+    if(page) delete req.query.page
 
     try {
         data = await prisma.requestReimburses.findMany({
-            where: req.query
+            where: req.query,
+            skip: skip,
+            take: take
         })
     } catch (err) {
         return res.status(400).json({
@@ -35,6 +48,13 @@ export const getAllData = async (req: Request, res: Response) => {
         }
 
         json.push(data)
+    })
+
+    if(!json.length) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'data not found',
+        data: json
     })
 
     return res.json({
