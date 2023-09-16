@@ -9,7 +9,7 @@ https://node.flattenbot.site
 
 - GET `/request-reimbursement`
 
-- Params Query
+- Params query
 
 | **Params**     | **Type**     | **Description**       | **Required** |
 | -------------  | ------------ | --------------------- | :----------: |
@@ -17,6 +17,13 @@ https://node.flattenbot.site
 | type           | string       | search by type data   | false        |
 | status         | string       | search by status data | false        |
 | user           | int          | search by user id     | false        |
+
+- Available value
+
+| **Field** | **value**                                   |
+| --------- | ------------------------------------------- |
+| type      | travel, business, healthcare, tax, others   |
+| status    | pending, approved_lead, approved_hr, reject |
 
 - Example success response `Status: 200 OK`
 
@@ -86,6 +93,12 @@ https://node.flattenbot.site
 | type          | string      | true         |
 | nominal       | bigInt      | true         |
 | url_proof     | string      | false        |
+
+- Available value
+
+| **Field** | **Value**                                   |
+| --------- | ------------------------------------------- |
+| type      | travel, business, healthcare, tax, others   |
 
 - Example success response `Status: 200 OK`
 
@@ -199,6 +212,12 @@ https://node.flattenbot.site
 | type          | string      | true         |
 | nominal       | bigInt      | true         |
 | url_proof     | string      | false        |
+
+- Available value
+
+| **Field** | **Value**                                   |
+| --------- | ------------------------------------------- |
+| type      | travel, business, healthcare, tax, others   |
 
 - Example success response `Status: 200 OK`
 
