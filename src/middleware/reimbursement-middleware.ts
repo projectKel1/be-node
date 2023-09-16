@@ -4,15 +4,6 @@ import Joi from "joi";
 export default async (req: Request, res: Response, next: NextFunction) => {
 
     const validation = Joi.object({
-        user_id: Joi.number()
-            .required()
-            .empty()
-            .messages({
-                'any.required': 'user_id field is required',
-                'string.empty': 'user_id field cannot has empty value',
-                'number.base': 'user_id field must be a number'
-            })
-        ,
         description: Joi.string()
             .required()
             .empty()
@@ -38,10 +29,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             .min(500)
             .unsafe()
             .messages({
-                'any.required': 'type nominal is required',
-                'string.empty': 'type nominal cannot has empty value',
-                'number.base': 'type nominal must be a number',
-                'number.min': 'type nominal cannot less than 500'
+                'any.required': 'nominal field is required',
+                'string.empty': 'nominal field cannot has empty value',
+                'number.base': 'nominal field must be a number',
+                'number.min': 'nominal field cannot less than 500'
             })
         ,
         url_proof: Joi.string()
