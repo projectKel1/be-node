@@ -144,7 +144,7 @@ https://node.flattenbot.site
 
 ### Get details request-reimbursement
 
-- GET `/request-reimbursement/:user_id`
+- GET `/request-reimbursement/:reimbursement_id`
 
 - Example success response `Status: 200 OK`
 
