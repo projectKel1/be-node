@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import ApiRouter from './routes/index'
+import  './routes/reimbursement-router'
 
 declare global {
     namespace Express {
@@ -14,6 +15,7 @@ declare global {
 const app: express.Application = express()
 const env = process.env
 
+app.use('/request-reimbursement',)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
