@@ -3,7 +3,7 @@ CREATE TABLE `request_reimburses` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `user_id` INTEGER NOT NULL,
     `description` LONGTEXT NOT NULL,
-    `type` ENUM('transportation', 'dentist', 'glassess', 'others') NOT NULL,
+    `type` ENUM('travel', 'business', 'healthcare', 'tax', 'others') NOT NULL,
     `nominal` BIGINT NOT NULL,
     `url_proof` VARCHAR(191) NULL,
     `status` ENUM('pending', 'approved_lead', 'approved_hr', 'reject') NOT NULL DEFAULT 'pending',
