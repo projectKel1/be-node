@@ -16,9 +16,10 @@ const initSeeder = async () => {
     }
 
     enum type {
-        transportation = "transportation",
-        dentist = "dentist",
-        glassess = "glassess",
+        travel = "travel",
+        business = "business",
+        healthcare = "healthcare",
+        tax = "tax",
         others = "others"
     }
 

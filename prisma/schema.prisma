@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,15 +8,15 @@ datasource db {
 }
 
 model RequestLeave {
-  id           Int                @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   user_id      Int
-  reason       String             @db.LongText
+  reason       String          @db.LongText
   started_date DateTime
   ended_date   DateTime
   url_proof    String?
-  status       EnumLeaveStatus    @default(pending)
-  created_at   DateTime           @default(now())
-  updated_at   DateTime           @updatedAt
+  status       EnumLeaveStatus @default(pending)
+  created_at   DateTime        @default(now())
+  updated_at   DateTime        @updatedAt
   deleted_at   DateTime?
 
   @@map("request_leaves")
@@ -48,9 +45,10 @@ model RequestReimburses {
 }
 
 enum EnumReimbursesType {
-  transportation
-  dentist
-  glassess
+  travel
+  business
+  healthcare
+  tax
   others
 }
 
