@@ -234,16 +234,6 @@ https://node.flattenbot.site
 }
 ```
 
-- Example failed response `Status: 404 Not found`
-
-```json
-{
-    "status_code": 404,
-    "result": "error",
-    "message": "record to update not found",
-}
-```
-
 - Example failed response `Status: 401 Unauthorized`
 
 ```json
@@ -251,6 +241,16 @@ https://node.flattenbot.site
     "status_code": 401,
     "result": "error",
     "message": "unauthorized",
+}
+```
+
+- Example failed response `Status: 404 Not found`
+
+```json
+{
+    "status_code": 404,
+    "result": "error",
+    "message": "record to update not found",
 }
 ```
 
