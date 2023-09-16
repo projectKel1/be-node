@@ -17,7 +17,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         type: Joi.string()
             .required()
             .empty()
-            .valid('transportation', 'dentist', 'glasses', 'others')
+            .valid('travel', 'business', 'healthcare', 'tax', 'others')
             .messages({
                 'any.required': 'type field is required',
                 'string.empty': 'type field cannot has empty value'
