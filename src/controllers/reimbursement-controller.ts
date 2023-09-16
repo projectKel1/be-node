@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 export const getAllData = async (req: Request, res: Response) => {
 
     let data: any
-    let skip = 0, take = 20
+    let skip = 0, take = 5
     let page: any = req.query.page
 
     // limit pagination
@@ -68,12 +68,12 @@ export const getAllData = async (req: Request, res: Response) => {
 
 export const createData = async (req: Request, res: Response) => {
 
-    const { user_id, description, type, nominal, url_proof } = req.body
+    const { description, type, nominal, url_proof } = req.body
     let requestReimburses: Prisma.RequestReimbursesCreateInput
 
     try {
         requestReimburses = {
-            user_id: parseInt(user_id),
+            user_id: req.user.id,
             description: description,
             type: type,
             nominal: BigInt(nominal),
@@ -130,6 +130,45 @@ export const detailsData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'successfully fetch data',
+        data: data
+    })
+
+}
+
+export const updateData = async (req: Request, res: Response) => {
+
+    let data: any
+    const { description, type, nominal, url_proof } = req.body
+        
+    try {
+        data = await prisma.requestReimburses.update({
+            where: {
+                id: parseInt(req.params.id)
+            },
+            data: {
+                user_id: req.user.id,
+                description: description,
+                type: type,
+                nominal: nominal,
+                url_proof: url_proof
+            }
+        })
+    } catch (err: any) {
+        if(err.code === 'P2025' && err.meta.cause) return res.status(404).json({
+            status_code: 401,
+            result: 'error',
+            message: err.meta.cause
+        })
+        
+        throw new Error(err)
+    }
+    
+    data.nominal = data.nominal.toString()
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully update record data',
         data: data
     })
 

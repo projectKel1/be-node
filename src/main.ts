@@ -1,8 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
-import ReimbursementRouter from './routes/reimbursement-router'
-import AuthMiddleware from './middleware/auth-middleware'
+import ApiRouter from './routes/index'
 
 declare global {
     namespace Express {
@@ -19,7 +18,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
 
-app.use('/request-reimbursment', AuthMiddleware, ReimbursementRouter)
+app.use(ApiRouter)
 
 app.listen(env.SERVER_PORT, () => {
     console.log(`Listening on port ${env.SERVER_PORT}`)
