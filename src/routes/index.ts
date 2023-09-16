@@ -4,6 +4,6 @@ import AuthMiddleware from '../middleware/auth-middleware'
 
 const router = express.Router()
 
-router.use('/request-reimbursement', AuthMiddleware, RequestReimbursement)
+router.use('/request-reimbursement', RequestReimbursement)
 
 export default router

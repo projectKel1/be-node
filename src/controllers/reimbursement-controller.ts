@@ -1,13 +1,11 @@
-import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-
-const prisma = new PrismaClient()
+import { detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
 
 export const getAllData = async (req: Request, res: Response) => {
 
-    let data: any
-    let skip = 0, take = 5
+    let skip: number = 0, take: number = 5
     let page: any = req.query.page
+    let query: any = req.query
 
     // limit pagination
     if(page) {
@@ -17,79 +15,40 @@ export const getAllData = async (req: Request, res: Response) => {
     }
 
     if(page) delete req.query.page
-
-    try {
-        data = await prisma.requestReimburses.findMany({
-            where: req.query,
-            skip: skip,
-            take: take
-        })
-    } catch (err) {
-        return res.status(400).json({
-            status_code: 400,
-            result: 'error',
-            message: 'invalid params query'
-        })
-    }
     
-    let json: any = []
-    data.map((value: any) => {
-        let data = {
-            id: value.id,
-            user_id: value.user_id,
-            description: value.description,
-            type: value.type,
-            nominal: value.nominal.toString(),
-            url_proof: value.url_proof,
-            status: value.status,
-            created_at: value.created_at,
-            updated_at: value.updated_at,
-            deleted_at: value.deleted_at
-        }
+    const data = await getDataReimbursement(query, skip, take)
 
-        json.push(data)
+    if(!data) return res.status(400).json({
+        status_code: 400,
+        result: 'error',
+        message: 'invalid params query'
     })
 
-    if(!json.length && page) return res.status(404).json({
+    if(!data.length && page) return res.status(404).json({
         status_code: 404,
         result: 'error',
         message: 'data not found',
-        data: json
+        data: data
     })
 
     return res.json({
         status_code: 200,
         result: 'success',
         message: 'successfully fetch data',
-        data: json
+        data: data
     })
 
 }
 
 export const createData = async (req: Request, res: Response) => {
 
-    const { description, type, nominal, url_proof } = req.body
-    let requestReimburses: Prisma.RequestReimbursesCreateInput
+    const data = await insertDataReimbursement(req)
 
-    try {
-        requestReimburses = {
-            user_id: req.user.id,
-            description: description,
-            type: type,
-            nominal: BigInt(nominal),
-            url_proof: url_proof
-        } 
-
-        await prisma.requestReimburses.create({
-            data: requestReimburses
-        })
-    } catch (err: any) {
-        return res.status(500).json({
-            status_code: 500,
-            result: 'error',
-            message: 'internal server error'
-        })
-    }
+    if(!data) return res.status(500).json({
+        status_code: 500,
+        result: 'error',
+        message: 'internal server error'
+    })
 
     return res.json({
         status_code: 200,
@@ -101,21 +60,8 @@ export const createData = async (req: Request, res: Response) => {
 
 export const detailsData = async (req: Request, res: Response) => {
 
-    let data: any
-
-    try {
-        data = await prisma.requestReimburses.findFirst({
-            where: {
-                id: parseInt(req.params.reimbursment_id)
-            }
-        })
-    } catch (error: any) {
-        return res.status(500).json({
-            status_code: 500,
-            result: 'error',
-            message: 'internal server error'
-        })
-    } 
+    const id: number = parseInt(req.params.id)
+    const data = await detailsDataReimbursement(id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -137,32 +83,14 @@ export const detailsData = async (req: Request, res: Response) => {
 
 export const updateData = async (req: Request, res: Response) => {
 
-    let data: any
-    const { description, type, nominal, url_proof } = req.body
+    const data = await updateDataReimbursement(req)
+
+    if(!data) return res.status(404).json({
+        status_code: 401,
+        result: 'error',
+        message: 'record to update not found'
+    })
         
-    try {
-        data = await prisma.requestReimburses.update({
-            where: {
-                id: parseInt(req.params.id)
-            },
-            data: {
-                user_id: req.user.id,
-                description: description,
-                type: type,
-                nominal: nominal,
-                url_proof: url_proof
-            }
-        })
-    } catch (err: any) {
-        if(err.code === 'P2025' && err.meta.cause) return res.status(404).json({
-            status_code: 401,
-            result: 'error',
-            message: err.meta.cause
-        })
-        
-        throw new Error(err)
-    }
-    
     data.nominal = data.nominal.toString()
 
     return res.json({
