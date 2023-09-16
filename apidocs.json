@@ -11,7 +11,7 @@
             "description": "Manage reimbursement requests"
         }
     ],
-    "host": "node.flattenbot.site",
+    "host": "https://node.flattenbot.site/",
     "basePath": "/v1",
     "schemes": ["https"],
     "paths": {
