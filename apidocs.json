@@ -1,0 +1,524 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Request Reimbursement API",
+      "version": "1.0.0",
+      "description": "API documentation for managing reimbursement requests."
+    },
+    "tags": [
+        {
+            "name": "Request Reimbursement",
+            "description": "Manage reimbursement requests"
+        }
+    ],
+    "host": "https://node.flattenbot.site/",
+    "basePath": "/v1",
+    "schemes": ["https"],
+    "paths": {
+    "/reimbursements": {
+      "get": {
+        "summary": "Get all reimbursements",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully fetch data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Some description"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "Transportation"
+                      },
+                      "nominal": {
+                        "type": "string",
+                        "example": "300000"
+                      },
+                      "url_proof": {
+                        "type": "string",
+                        "example": "https://localhost.com/proof.jpg"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "Pending"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_at": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid params query"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Data not found"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new reimbursement",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "nominal": {
+                  "type": "string"
+                },
+                "url_proof": {
+                  "type": "string"
+                }
+              },
+              "required": ["user_id", "description", "type", "nominal"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Record has been created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid request body"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reimbursements/{id}": {
+      "get": {
+        "summary": "Get details of a reimbursement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully fetch data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Some description"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "Transportation"
+                    },
+                    "nominal": {
+                      "type": "string",
+                      "example": "300000"
+                    },
+                    "url_proof": {
+                      "type": "string",
+                      "example": "https://localhost.com/proof.jpg"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "Pending"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Data not found"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a reimbursement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "nominal": {
+                  "type": "string"
+                },
+                "url_proof": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully update record data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Some description"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "Transportation"
+                    },
+                    "nominal": {
+                      "type": "string",
+                      "example": "300000"
+                    },
+                    "url_proof": {
+                      "type": "string",
+                      "example": "https://localhost.com/proof.jpg"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "Pending"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid request body"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Record to update not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a reimbursement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully deleted data"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Record to delete not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
