@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
+import { deleteDataReimbursement, detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
 
 export const getAllData = async (req: Request, res: Response) => {
 
@@ -98,6 +98,25 @@ export const updateData = async (req: Request, res: Response) => {
         result: 'success',
         message: 'successfully update record data',
         data: data
+    })
+
+}
+
+export const deleteData = async (req: Request, res: Response) => {
+
+    const id = parseInt(req.params.id)
+    const data = await deleteDataReimbursement(id)
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'record to delete not found'
+    })
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully deleted data'
     })
 
 }

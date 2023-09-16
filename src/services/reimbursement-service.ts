@@ -1,6 +1,31 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient().$extends({
+    query: {
+        requestReimburses: {
+            async findMany({model, operation, args, query}) {
+                args.where = {
+                    deleted_at: null
+                }
+                return query(args)
+            },
+        }
+    },
+    model: {
+        requestReimburses: {
+            async softDelete(id: number) {
+                await prisma.requestReimburses.update({
+                    where: {
+                        id: id
+                    },
+                    data: {
+                        deleted_at: new Date().toISOString()
+                    }
+                })
+            }
+        }
+    }
+})
 
 export const getDataReimbursement = async (query: any, skip: number, take: number) => {
     
@@ -108,5 +133,17 @@ export const updateDataReimbursement = async (req: any) => {
     }
 
     return data
+
+}
+
+export const deleteDataReimbursement = async (id: number) => {
+
+    try {
+        await prisma.requestReimburses.softDelete(id)
+    } catch (err) {
+        return null
+    }
+
+    return true
 
 }
