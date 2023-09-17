@@ -15,7 +15,6 @@ declare global {
 const app: express.Application = express()
 const env = process.env
 
-app.use('/request-reimbursement',)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cors())
