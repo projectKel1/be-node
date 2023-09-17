@@ -5,6 +5,7 @@
 
 import { startRequestLeaves } from "./request-leaves"
 import { startRequestReimburses } from "./request-reimbursment"
+import { startAttendances } from './attendances'
 import 'dotenv/config'
 
 ( async () => {
@@ -21,6 +22,7 @@ import 'dotenv/config'
     try  {
         await startRequestLeaves()
         await startRequestReimburses()
+        await startAttendances()
     }catch (error: any) {
         throw new Error(error)
     }

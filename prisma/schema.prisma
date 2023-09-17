@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider            = "mysql"
+  url                 = env("DATABASE_URL")
+  shadowDatabaseUrl   = env("SHADOW_DATABASE_URL")
 }
 
 model RequestLeave {
@@ -57,4 +58,15 @@ enum EnumReimbursesStatus {
   approved_lead
   approved_hr
   reject
+}
+
+model Attendance {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  is_checkout Boolean
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  deleted_at  DateTime?
+
+  @@map("attendances")
 }
