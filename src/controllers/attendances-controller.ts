@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getDataAttendaces } from "../services/attendances-service";
+import { createDataAttendances, getDataAttendances } from "../services/attendances-service";
 
 export const getData = async (req: Request, res: Response) => {
 
@@ -16,7 +16,12 @@ export const getData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
 
-    const data = await getDataAttendaces(query, skip, take)
+    if(query.is_checkout) {
+        if(query.is_checkout == "true") query.is_checkout = true
+        if(query.is_checkout == "false") query.is_checkout = false
+    }
+
+    const data = await getDataAttendances(query, skip, take)
 
     if(!data) return res.status(400).json({
         status_code: 400,
@@ -35,6 +40,24 @@ export const getData = async (req: Request, res: Response) => {
         result: 'success',
         message: 'successfully fetch data',
         data: data
+    })
+
+}
+
+export const createData = async (req: Request, res: Response) => {
+
+    const data = await createDataAttendances(req.user.id)
+
+    if(!data) return res.status(500).json({
+        status_code: 500,
+        result: 'error',
+        message: 'internal server error'
+    })
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'record present has been created'
     })
 
 }
