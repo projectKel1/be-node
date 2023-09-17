@@ -11,17 +11,636 @@
             "description": "Manage reimbursement requests"
         },
         {
-           "name": "presensi",
-           "description": "Manage Presensi"
+           "name": "Attendances",
+           "description": "Manage attendances"
+        },
+        {
+          "name": "Request Leave",
+          "description": "Manage Leave Request"
+        },
+        {
+          "name": "Targets",
+          "description": "Manage Targets"
+        },
+        {
+          "name": "Target Reports",
+          "description": "Manage Reports Target"
+        },
+        {
+          "name": "HR Activity Logs",
+          "description": "Manage HR Activity Logs"
         }
     ],
-    "host": "https://node.flattenbot.site/",
+    "host": "node.flattenbot.site",
     "basePath": "/v1",
     "schemes": ["https"],
     "paths": {
-    "/reimbursements": {
+      "/request-reimbursement": {
+        "get": {
+          "tags": [
+            "Request Reimbursement"
+          ],
+          "summary": "Get data request-reimbursement",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "success"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "successfully fetch data"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "user_id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "some description"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "transportation"
+                        },
+                        "nominal": {
+                          "type": "string",
+                          "example": "300000"
+                        },
+                        "url_proof": {
+                          "type": "string",
+                          "example": "https://localhost.com/proof.jpg"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "pending"
+                        },
+                        "created_date": {
+                          "type": "string",
+                          "example": "15-01-2023"
+                        },
+                        "updated_date": {
+                          "type": "string",
+                          "example": "17-01-2023"
+                        },
+                        "deleted_at": {
+                          "type": "string",
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 400
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "invalid params query"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 401
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "unauthorized"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 404
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "data not found"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create request-reimbursement",
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "success"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "record has been created"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 400
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "example": "description field is required"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 401
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "unauthorized"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 500
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "internal server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/request-reimbursement/{reimbursement_id}": {
+        "get": {
+          "tags": [
+            "Request Reimbursement"
+          ],
+          "summary": "Get details request-reimbursement",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "reimbursement_id",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "success"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "successfully fetch data"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "some description"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "transportation"
+                      },
+                      "nominal": {
+                        "type": "string",
+                        "example": "300000"
+                      },
+                      "url_proof": {
+                        "type": "string",
+                        "example": "https://localhost.com/proof.jpg"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "pending"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_at": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 401
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "unauthorized"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 404
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "data not found"
+                  },
+                  "data": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 500
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "internal server error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Request Reimbursement"
+          ],
+          "summary": "Update request-reimbursement",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "reimbursement_id",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "success"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "successfully update data"
+                  },
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "some description"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "transportation"
+                      },
+                      "nominal": {
+                        "type": "string",
+                        "example": "300000"
+                      },
+                      "url_proof": {
+                        "type": "string",
+                        "example": "https://localhost.com/proof.jpg"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "approved"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_at": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 400
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string",
+                        "example": "description field is required"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 401
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "unauthorized"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 404
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "record to update not found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "Request Reimbursement"
+          ],
+          "summary": "Delete request-reimbursement",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "reimbursement_id",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "success"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "record has been deleted"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 401
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "unauthorized"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status_code": {
+                    "type": "integer",
+                    "example": 404
+                  },
+                  "result": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "data not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "/attendances": {
       "get": {
-        "summary": "Get all reimbursements",
+        "tags": [
+          "Attendances"
+        ],
+        "summary": "Get data attendances",
         "responses": {
           "200": {
             "description": "Success",
@@ -38,7 +657,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully fetch data"
+                  "example": "successfully fetch data"
                 },
                 "data": {
                   "type": "array",
@@ -53,25 +672,9 @@
                         "type": "integer",
                         "example": 1
                       },
-                      "description": {
-                        "type": "string",
-                        "example": "Some description"
-                      },
-                      "type": {
-                        "type": "string",
-                        "example": "Transportation"
-                      },
-                      "nominal": {
-                        "type": "string",
-                        "example": "300000"
-                      },
-                      "url_proof": {
-                        "type": "string",
-                        "example": "https://localhost.com/proof.jpg"
-                      },
-                      "status": {
-                        "type": "string",
-                        "example": "Pending"
+                      "is_checkout": {
+                        "type": "boolean",
+                        "example": true
                       },
                       "created_date": {
                         "type": "string",
@@ -82,7 +685,8 @@
                         "example": "17-01-2023"
                       },
                       "deleted_at": {
-                        "type": "null"
+                        "type": "string",
+                        "example": null
                       }
                     }
                   }
@@ -105,7 +709,27 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Invalid params query"
+                  "example": "invalid params query"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "unauthorized"
                 }
               }
             }
@@ -125,10 +749,11 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Data not found"
+                  "example": "data not found"
                 },
                 "data": {
-                  "type": "null"
+                  "type": "array",
+                  "items": {}
                 }
               }
             }
@@ -136,43 +761,19 @@
         }
       },
       "post": {
-        "summary": "Create a new reimbursement",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "nominal": {
-                  "type": "string"
-                },
-                "url_proof": {
-                  "type": "string"
-                }
-              },
-              "required": ["user_id", "description", "type", "nominal"]
-            }
-          }
+        "tags": [
+          "Attendances"
         ],
+        "summary": "Create data attendances",
         "responses": {
-          "201": {
-            "description": "Created",
+          "200": {
+            "description": "Success",
             "schema": {
               "type": "object",
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "example": 201
+                  "example": 200
                 },
                 "result": {
                   "type": "string",
@@ -180,19 +781,19 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Record has been created"
+                  "example": "record present has been created"
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "401": {
+            "description": "Unauthorized",
             "schema": {
               "type": "object",
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "example": 400
+                  "example": 401
                 },
                 "result": {
                   "type": "string",
@@ -200,7 +801,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Invalid request body"
+                  "example": "unauthorized"
                 }
               }
             }
@@ -220,7 +821,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal server error"
+                  "example": "internal server error"
                 }
               }
             }
@@ -228,9 +829,558 @@
         }
       }
     },
-    "/reimbursements/{id}": {
+    "/request-leaves": {
       "get": {
-        "summary": "Get details of a reimbursement",
+        "tags": [
+          "Request Leave"
+        ],
+        "summary": "Get data request-leaves",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "reason": {
+                        "type": "string",
+                        "example": "some reason"
+                      },
+                      "started_date": {
+                        "type": "string",
+                        "example": "20-01-2023"
+                      },
+                      "ended_date": {
+                        "type": "string",
+                        "example": "23-01-2023"
+                      },
+                      "url_proof": {
+                        "type": "string",
+                        "example": "https://localhost.com/proof.jpg"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "pending"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_at": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Request Leave"
+        ],
+        "summary": "Create request-leaves",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "example": "reason field is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/request-leaves/{user_id}": {
+      "get": {
+        "tags": [
+          "Request Leave"
+        ],
+        "summary": "Get details request-leaves",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "reason": {
+                      "type": "string",
+                      "example": "some reason"
+                    },
+                    "started_date": {
+                      "type": "string",
+                      "example": "20-01-2023"
+                    },
+                    "ended_date": {
+                      "type": "string",
+                      "example": "23-01-2023"
+                    },
+                    "url_proof": {
+                      "type": "string",
+                      "example": "https://localhost.com/proof.jpg"
+                    },
+                    "pending": {
+                      "type": "string",
+                      "example": "pending"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Request Leave"
+        ],
+        "summary": "Update request-leaves",
+        "parameters": [
+          {
+            "name": "leaves_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully update data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "reason": {
+                      "type": "string",
+                      "example": "some reason updated"
+                    },
+                    "started_date": {
+                      "type": "string",
+                      "example": "20-01-2023"
+                    },
+                    "ended_date": {
+                      "type": "string",
+                      "example": "23-01-2023"
+                    },
+                    "url_proof": {
+                      "type": "string",
+                      "example": "https://localhost.com/proof.jpg"
+                    },
+                    "pending": {
+                      "type": "string",
+                      "example": "pending"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "reason": {
+                      "type": "string",
+                      "example": "reason field is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Request Leave"
+        ],
+        "summary": "Delete request-leaves",
+        "parameters": [
+          {
+            "name": "leaves_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Data Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/targets": {
+      "get": {
+        "tags": [
+          "Targets"
+        ],
+        "summary": "Get targets",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "product": {
+                        "type": "string",
+                        "example": "product_name"
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "ended_date": {
+                        "type": "string",
+                        "example": "23-01-2023"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_date": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Targets"
+        ],
+        "summary": "Create target",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "product field is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/targets/{id}": {
+      "get": {
+        "tags": [
+          "Targets"
+        ],
+        "summary": "Get target by ID",
         "parameters": [
           {
             "name": "id",
@@ -255,7 +1405,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully fetch data"
+                  "example": "successfully fetch data"
                 },
                 "data": {
                   "type": "object",
@@ -268,25 +1418,17 @@
                       "type": "integer",
                       "example": 1
                     },
-                    "description": {
+                    "product": {
                       "type": "string",
-                      "example": "Some description"
+                      "example": "product_name"
                     },
-                    "type": {
-                      "type": "string",
-                      "example": "Transportation"
+                    "quantity": {
+                      "type": "integer",
+                      "example": 100
                     },
-                    "nominal": {
+                    "ended_date": {
                       "type": "string",
-                      "example": "300000"
-                    },
-                    "url_proof": {
-                      "type": "string",
-                      "example": "https://localhost.com/proof.jpg"
-                    },
-                    "status": {
-                      "type": "string",
-                      "example": "Pending"
+                      "example": "23-01-2023"
                     },
                     "created_date": {
                       "type": "string",
@@ -296,8 +1438,9 @@
                       "type": "string",
                       "example": "17-01-2023"
                     },
-                    "deleted_at": {
-                      "type": "null"
+                    "deleted_date": {
+                      "type": "string",
+                      "example": null
                     }
                   }
                 }
@@ -319,7 +1462,402 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Data not found"
+                  "example": "data not found"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Targets"
+        ],
+        "summary": "Update target by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully update data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "product": {
+                      "type": "string",
+                      "example": "product_name_updated"
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "ended_date": {
+                      "type": "string",
+                      "example": "23-01-2023"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_date": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "example": "product field is required"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record to update not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Targets"
+        ],
+        "summary": "Delete target by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/target_reports": {
+      "get": {
+        "tags": [
+          "Target Reports"
+        ],
+        "summary": "Get target reports",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "target_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "completed"
+                      },
+                      "url_proof": {
+                        "type": "string",
+                        "example": "https://localhost.com/proof.jpg"
+                      },
+                      "created_date": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_date": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_date": {
+                        "type": "string",
+                        "example": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Target Reports"
+        ],
+        "summary": "Create target report",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "status field is required"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/target_reports/{id}": {
+      "get": {
+        "tags": [
+          "Target Reports"
+        ],
+        "summary": "Get target report by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "target_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "completed"
+                    },
+                    "url_proof": {
+                      "type": "string",
+                      "example": "https://localhost.com/proof.jpg"
+                    },
+                    "created_date": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_date": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_date": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
                 },
                 "data": {
                   "type": "null"
@@ -330,37 +1868,16 @@
         }
       },
       "put": {
-        "summary": "Update a reimbursement",
+        "tags": [
+          "Target Reports"
+        ],
+        "summary": "Update target report by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "user_id": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                },
-                "nominal": {
-                  "type": "string"
-                },
-                "url_proof": {
-                  "type": "string"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -379,7 +1896,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully update record data"
+                  "example": "successfully update data"
                 },
                 "data": {
                   "type": "object",
@@ -392,25 +1909,17 @@
                       "type": "integer",
                       "example": 1
                     },
-                    "description": {
-                      "type": "string",
-                      "example": "Some description"
+                    "target_id": {
+                      "type": "integer",
+                      "example": 1
                     },
-                    "type": {
+                    "status": {
                       "type": "string",
-                      "example": "Transportation"
-                    },
-                    "nominal": {
-                      "type": "string",
-                      "example": "300000"
+                      "example": "completed"
                     },
                     "url_proof": {
                       "type": "string",
                       "example": "https://localhost.com/proof.jpg"
-                    },
-                    "status": {
-                      "type": "string",
-                      "example": "Pending"
                     },
                     "created_date": {
                       "type": "string",
@@ -420,8 +1929,9 @@
                       "type": "string",
                       "example": "17-01-2023"
                     },
-                    "deleted_at": {
-                      "type": "null"
+                    "deleted_date": {
+                      "type": "string",
+                      "example": null
                     }
                   }
                 }
@@ -442,8 +1952,13 @@
                   "example": "error"
                 },
                 "message": {
-                  "type": "string",
-                  "example": "Invalid request body"
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "status field is required"
+                    }
+                  }
                 }
               }
             }
@@ -463,7 +1978,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Record to update not found"
+                  "example": "record to update not found"
                 }
               }
             }
@@ -471,7 +1986,10 @@
         }
       },
       "delete": {
-        "summary": "Delete a reimbursement",
+        "tags": [
+          "Target Reports"
+        ],
+        "summary": "Delete target report by ID",
         "parameters": [
           {
             "name": "id",
@@ -496,7 +2014,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully deleted data"
+                  "example": "record has been deleted"
                 }
               }
             }
@@ -516,7 +2034,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Record to delete not found"
+                  "example": "data not found"
                 }
               }
             }
@@ -524,19 +2042,20 @@
         }
       }
     },
-    "/presensi": {
+    "/hr-activity-logs": {
       "get": {
-        "summary": "Get all presensi data",
-        "produces": ["application/json"],
+        "tags": [
+          "HR Activity Logs"
+        ],
+        "summary": "Get HR activity logs",
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "Success",
             "schema": {
               "type": "object",
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "format": "int32",
                   "example": 200
                 },
                 "result": {
@@ -545,48 +2064,47 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Presensi data retrieved successfully"
+                  "example": "successfully fetch data"
                 },
                 "data": {
                   "type": "array",
                   "items": {
                     "type": "object",
                     "properties": {
-                      "userId": {
+                      "id": {
                         "type": "integer",
                         "example": 1
                       },
-                      "inTime": {
-                        "type": "string",
-                        "example": "2023-09-20T10:00:00Z"
+                      "user_id": {
+                        "type": "integer",
+                        "example": 1
                       },
-                      "outTime": {
+                      "logs": {
                         "type": "string",
-                        "example": "2023-09-20T18:00:00Z"
+                        "example": "example_log"
+                      },
+                      "leave_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "reimbursment_id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "example": "15-01-2023"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "example": "17-01-2023"
+                      },
+                      "deleted_at": {
+                        "type": "string",
+                        "example": null
                       }
                     }
                   }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status_code": {
-                  "type": "integer",
-                  "format": "int32",
-                  "example": 500
-                },
-                "result": {
-                  "type": "string",
-                  "example": "error"
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Internal Server Error"
                 }
               }
             }
@@ -594,43 +2112,19 @@
         }
       },
       "post": {
-        "summary": "Create a new presensi record",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "presensi",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "type": "integer",
-                  "example": 1
-                },
-                "inTime": {
-                  "type": "string",
-                  "example": "2023-09-20T10:00:00Z"
-                },
-                "outTime": {
-                  "type": "string",
-                  "example": "2023-09-20T18:00:00Z"
-                }
-              },
-              "required": ["userId", "inTime", "outTime"]
-            }
-          }
+        "tags": [
+          "HR Activity Logs"
         ],
+        "summary": "Create HR activity log",
         "responses": {
-          "201": {
-            "description": "Presensi record created successfully",
+          "200": {
+            "description": "Success",
             "schema": {
               "type": "object",
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "format": "int32",
-                  "example": 201
+                  "example": 200
                 },
                 "result": {
                   "type": "string",
@@ -638,37 +2132,94 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Presensi record has been created"
+                  "example": "record has been created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hr-activity-logs/{id}": {
+      "get": {
+        "tags": [
+          "HR Activity Logs"
+        ],
+        "summary": "Get HR activity log by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully fetch data"
                 },
                 "data": {
                   "type": "object",
                   "properties": {
-                    "userId": {
+                    "id": {
                       "type": "integer",
                       "example": 1
                     },
-                    "inTime": {
-                      "type": "string",
-                      "example": "2023-09-20T10:00:00Z"
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
                     },
-                    "outTime": {
+                    "logs": {
                       "type": "string",
-                      "example": "2023-09-20T18:00:00Z"
+                      "example": "example_log"
+                    },
+                    "leave_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "reimbursment_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "example": null
                     }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "404": {
+            "description": "Not Found",
             "schema": {
               "type": "object",
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "format": "int32",
-                  "example": 500
+                  "example": 404
                 },
                 "result": {
                   "type": "string",
@@ -676,7 +2227,159 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Internal Server Error"
+                  "example": "data not found"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "HR Activity Logs"
+        ],
+        "summary": "Update HR activity log by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "successfully update data"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "logs": {
+                      "type": "string",
+                      "example": "example_log_updated"
+                    },
+                    "leave_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "reimbursment_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "example": "15-01-2023"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "example": "17-01-2023"
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record to update not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "HR Activity Logs"
+        ],
+        "summary": "Delete HR activity log by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "result": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "record has been deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "result": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "data not found"
                 }
               }
             }

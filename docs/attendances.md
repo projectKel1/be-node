@@ -81,9 +81,11 @@ https://node.flattenbot.site
 - Example success response `Status: 200 OK`
 
 ```json
+{
     "status_code": 200,
     "result": "success",
     "message": "record present has been created",
+}
 ```
 
 - Example failed response `Status: 401 Unauthorized`
