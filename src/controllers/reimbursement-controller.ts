@@ -67,7 +67,7 @@ export const detailsData = async (req: Request, res: Response) => {
         status_code: 404,
         result: 'error',
         message: 'data not found',
-        data: []
+        data: null
     })
 
     data.nominal = data.nominal.toString()

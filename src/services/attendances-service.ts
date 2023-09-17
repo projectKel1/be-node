@@ -44,3 +44,15 @@ export const createDataAttendances = async (userId: number) => {
     return data
 
 }
+
+export const detailsDataAttendances = async (attendancesId: number) => {
+
+    const data = await prisma.attendance.findFirst({
+        where: {
+            id: attendancesId
+        }
+    })
+
+    return data
+
+}
