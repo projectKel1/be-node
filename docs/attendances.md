@@ -16,3 +16,9 @@ https://node.flattenbot.site
 | page                | int           | current page          | false        |
 | is_checkout         | boolean       | search by checkout    | false        |
 | user                | int           | search by user id     | false        |
+
+- Available value
+
+| **Params**          | **Value**      |
+| ------------------- | -------------- |
+| is_checkout         | true, false    |
