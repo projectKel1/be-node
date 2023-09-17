@@ -56,7 +56,6 @@ export const createDataAttendances = async (userId: number) => {
             }
         })
     } catch (err: unknown) {
-        console.log(err);
         return err
     }
 
