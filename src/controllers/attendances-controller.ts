@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createDataAttendances, getDataAttendances } from "../services/attendances-service";
+import { createDataAttendances, detailsDataAttendances, getDataAttendances } from "../services/attendances-service";
 
 export const getData = async (req: Request, res: Response) => {
 
@@ -58,6 +58,27 @@ export const createData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'record present has been created'
+    })
+
+}
+
+export const detailsData = async (req: Request, res: Response) => {
+
+    const id = parseInt(req.params.id)
+    const data = await detailsDataAttendances(id)
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'data not found',
+        data: null
+    })
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'sucessfully fetch data',
+        data: data
     })
 
 }
