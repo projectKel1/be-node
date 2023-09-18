@@ -150,3 +150,45 @@ https://node.flattenbot.site
     "data": null
 }
 ```
+
+### Checkout attendances
+
+- PUT `/attendances/:attendance_id`
+
+- Example success response `Status: 200 OK`
+
+```json
+{
+  "status_code": 200,
+  "result": "success",
+  "message": "successfully update record data",
+  "data": {
+    "id": 50,
+    "user_id": 56,
+    "is_checkout": true,
+    "created_at": "2020-09-06T03:19:37.635Z",
+    "updated_at": "2023-09-17T15:54:10.131Z",
+    "deleted_at": null
+  }
+}
+```
+
+- Example failed response `Status: 401 Unauthorized`
+
+```json
+{
+  "status_code": 401,
+  "result": "error",
+  "message": "unauthorized"
+}
+```
+
+- Example failed response `Status: 404 Not found`
+
+```json
+{
+  "status_code": 404,
+  "result": "error",
+  "message": "record to update not found"
+}
+```
