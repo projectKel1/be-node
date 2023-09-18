@@ -177,6 +177,9 @@
           }
         },
         "post": {
+          "tags": [
+            "Request Reimbursement"
+          ],
           "summary": "Create request-reimbursement",
           "responses": {
             "200": {
@@ -1096,7 +1099,7 @@
         "summary": "Update request-leaves",
         "parameters": [
           {
-            "name": "leaves_id",
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -1202,7 +1205,7 @@
         "summary": "Delete request-leaves",
         "parameters": [
           {
-            "name": "leaves_id",
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "integer"
