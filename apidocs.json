@@ -177,6 +177,9 @@
           }
         },
         "post": {
+          "tags": [
+            "Request Reimbursement"
+          ],
           "summary": "Create request-reimbursement",
           "responses": {
             "200": {
