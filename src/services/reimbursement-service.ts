@@ -1,5 +1,18 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
+interface Reimburses {
+    id: number,
+    user_id: number,
+    description: string,
+    type: string,
+    nominal: bigint | string,
+    url_proof: string | null,
+    status: string,
+    created_at: Date,
+    updated_at: Date,
+    deleted_at: Date | null
+}
+
 const prisma = new PrismaClient().$extends({
     query: {
         requestReimburses: {
@@ -31,7 +44,7 @@ export const getDataReimbursement = async (query: any, skip: number, take: numbe
     
     // TODO: read data based on their roles
 
-    let data: any
+    let data: Reimburses[]
     try {
         data = await prisma.requestReimburses.findMany({
             where: query,
@@ -42,7 +55,7 @@ export const getDataReimbursement = async (query: any, skip: number, take: numbe
         return null
     }
 
-    let json: any = []
+    let json: Reimburses[] = []
 
     data.map((value: any) => {
 
@@ -84,7 +97,7 @@ export const insertDataReimbursement = async (req: any) => {
         await prisma.requestReimburses.create({
             data: requestReimburses
         })
-    } catch (err: any) {
+    } catch (err: unknown) {
         return false
     }
 
@@ -94,7 +107,7 @@ export const insertDataReimbursement = async (req: any) => {
 
 export const detailsDataReimbursement = async (id: number) => {
 
-    let data: any
+    let data: Reimburses | null
 
     try {
         data = await prisma.requestReimburses.findFirst({
@@ -102,7 +115,7 @@ export const detailsDataReimbursement = async (id: number) => {
                 id: id
             }
         })
-    } catch (error: any) {        
+    } catch (error: unknown) {        
         return false
     } 
 
@@ -112,7 +125,7 @@ export const detailsDataReimbursement = async (id: number) => {
 
 export const updateDataReimbursement = async (req: any) => {
 
-    let data: any
+    let data: Reimburses
     const { description, type, nominal, url_proof } = req.body
         
     try {
@@ -128,7 +141,7 @@ export const updateDataReimbursement = async (req: any) => {
                 url_proof: url_proof
             }
         })
-    } catch (err: any) {
+    } catch (err: unknown) {
         return null
     }
 

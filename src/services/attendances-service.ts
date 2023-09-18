@@ -28,7 +28,7 @@ const prisma = new PrismaClient().$extends({
 
 export const getDataAttendances = async (query: Attendances, skip: number, take: number) => {
 
-    let data: any
+    let data: Attendances[]
     
     try {
         data = await prisma.attendance.findMany({
