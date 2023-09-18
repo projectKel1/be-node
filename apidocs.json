@@ -1099,7 +1099,7 @@
         "summary": "Update request-leaves",
         "parameters": [
           {
-            "name": "leaves_id",
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "integer"
@@ -1205,7 +1205,7 @@
         "summary": "Delete request-leaves",
         "parameters": [
           {
-            "name": "leaves_id",
+            "name": "user_id",
             "in": "path",
             "required": true,
             "type": "integer"
