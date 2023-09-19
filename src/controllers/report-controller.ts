@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { 
-    getTargetReports, 
-    createTargetReport, 
-    detailTargetReport, 
-    updateTargetReport, 
-    deleteTargetReport, 
-} from '../controllers/report-service';
+    getAllTargetReports, 
+    createTargetReportRecord, 
+    getTargetReportDetails, 
+    updateTargetReportRecord, 
+    deleteTargetReportRecord, 
+} from '../services/report-service';
 
 
 export const getAllData = async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const getAllData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
 
-    const targetReports: any = await getTargetReports(skip, take, status, user)
+    const targetReports: any = await getAllTargetReports(skip, take, status, user)
     res.status(200).json({
         status_code: 200,
         result: 'success',
@@ -35,7 +35,7 @@ export const getAllData = async (req: Request, res: Response) => {
 export const createData = async (req: Request, res: Response) => {
     try {
         const { user_id, target_id, status, url_proof } = req.body;
-        await createTargetReport(user_id, target_id, status, url_proof);
+        await createTargetReportRecord(user_id, target_id, status, url_proof);
         res.status(200).json({
             status_code: 200,
             result: 'success',
@@ -52,7 +52,7 @@ export const createData = async (req: Request, res: Response) => {
 
 export const detailsData = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const targetReport = await detailTargetReport(id);
+    const targetReport = await getTargetReportDetails(id);
     if (!targetReport) {
         return res.status(404).json({
             status_code: 404,
@@ -73,7 +73,7 @@ export const updateData = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
         const { user_id, target_id, status, url_proof } = req.body;
-        const updatedTargetReport = await updateTargetReport(id, user_id, target_id, status, url_proof);
+        const updatedTargetReport = await updateTargetReportRecord(id, user_id, target_id, status, url_proof);
         if (!updatedTargetReport) {
             return res.status(404).json({
                 status_code: 404,
@@ -99,7 +99,7 @@ export const updateData = async (req: Request, res: Response) => {
   
 export const deleteData = async (req: Request, res: Response) => {
     const id = req.params.id;
-    const deleted = await deleteTargetReport(id);
+    const deleted = await deleteTargetReportRecord(id);
      if (!deleted) {
          return res.status(404).json({
             status_code: 404,
