@@ -15,6 +15,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             })
         ,
         started_date: Joi.date()
+            .required()
             .empty()
             .messages({
                 'any.required': 'started_date field is required',
@@ -22,6 +23,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             })
         ,
         ended_date: Joi.date()
+        .required()
         .empty()
         .messages({
             'any.required': 'ended_date field is required',
