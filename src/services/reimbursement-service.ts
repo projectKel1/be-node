@@ -1,8 +1,11 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { Request, query } from "express";
+import { getAllUsers } from "../api/users";
 
 interface Reimburses {
     id: number,
     user_id: number,
+    fullname?: string,
     description: string,
     type: string,
     nominal: bigint | string,
@@ -13,11 +16,17 @@ interface Reimburses {
     deleted_at: Date | null
 }
 
+export interface Userdata {
+    id: number,
+    fullname: string
+}
+
 const prisma = new PrismaClient().$extends({
     query: {
         requestReimburses: {
             async findMany({model, operation, args, query}) {
                 args.where = {
+                    status: args.where?.status,
                     deleted_at: null
                 }
                 return query(args)
@@ -40,26 +49,37 @@ const prisma = new PrismaClient().$extends({
     }
 })
 
-export const getDataReimbursement = async (query: any, skip: number, take: number) => {
+export const getDataReimbursement = async (req: Request, skip: number, take: number) => {
     
-    // TODO: read data based on their roles
-
-    let data: Reimburses[]
-    try {
-        data = await prisma.requestReimburses.findMany({
-            where: query,
-            skip: skip,
-            take: take
-        })
-    } catch (err) {
-        return null
-    }
-
+    // FIXME: read data reimbursement based on their roles
+    let reimbursementData: Reimburses[]
+    // let userData: Userdata[] = []
     let json: Reimburses[] = []
 
-    data.map((value: any) => {
+    if(req.user.level === "EMPLOYEE") {
+        req.query.user_id = req.user.userId
+        try{
+            reimbursementData = await prisma.requestReimburses.findMany({
+                skip: skip,
+                take: take
+            })
+        } catch (err) {
+            return null
+        }
+    } else {
+        try {
+            reimbursementData = await prisma.requestReimburses.findMany({
+                where: req.query,
+                skip: skip,
+                take: take
+            })
+        } catch (err) {
+            return null
+        }
+    }
 
-        let data:any = {
+    reimbursementData.map((value: Reimburses) => {
+        let data = {
             id: value.id,
             user_id: value.user_id,
             description: value.description,
@@ -73,7 +93,6 @@ export const getDataReimbursement = async (query: any, skip: number, take: numbe
         }
 
         json.push(data)
-
     })
 
     return json
