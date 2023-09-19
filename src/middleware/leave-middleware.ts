@@ -26,7 +26,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         .required()
         .empty()
         .messages({
-            'any.required': 'ended_date ft: add middlware ield is required',
+            'any.required': 'ended_date field is required',
             'string.empty': 'ended_date field cannot has empty value',
         })
         ,
