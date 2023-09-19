@@ -45,8 +45,8 @@ export const getData = async (req: Request, res: Response) => {
 }
 
 export const createData = async (req: Request, res: Response) => {
-
-    const data = await createDataAttendances(req.user.id)
+    
+    const data = await createDataAttendances(req.user.userId)
 
     if(!data) return res.status(500).json({
         status_code: 500,

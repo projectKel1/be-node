@@ -1,6 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Request, query } from "express";
-import { getAllUsers } from "../api/users";
 
 interface Reimburses {
     id: number,
@@ -99,14 +98,13 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
 
 }
 
-export const insertDataReimbursement = async (req: any) => {
+export const insertDataReimbursement = async (req: Request) => {
 
     const { description, type, nominal, url_proof } = req.body
     let requestReimburses: Prisma.RequestReimbursesCreateInput
-
     try {
         requestReimburses = {
-            user_id: req.user.id,
+            user_id: req.user.userId,
             description: description,
             type: type,
             nominal: BigInt(nominal),
@@ -142,7 +140,7 @@ export const detailsDataReimbursement = async (id: number) => {
 
 }
 
-export const updateDataReimbursement = async (req: any) => {
+export const updateDataReimbursement = async (req: Request) => {
 
     let data: Reimburses
     const { description, type, nominal, url_proof } = req.body
