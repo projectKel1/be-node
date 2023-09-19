@@ -3,7 +3,6 @@ import 'dotenv/config'
 import cors from 'cors'
 import ApiRouter from './routes/index'
 import  './routes/reimbursement-router'
-import requestLeavesRoutes from './routes/leaves-router';
 
 declare global {
     namespace Express {
