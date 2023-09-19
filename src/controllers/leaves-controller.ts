@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { deleteDataRequestLeave, getDataRequestLeaves, insertDataRequestLeaves, updateDataRequestLeave } from '../services/leaves-service';
+import { deleteDataRequestLeave, detailDataRequestLeaves, getDataRequestLeaves, insertDataRequestLeaves, updateDataRequestLeave } from '../services/leaves-service';
 
 export const getAllData = async (req: Request, res: Response) => {
   let skip: number = 0, take: number = 5
   let page: any = req.query.page
-
+  
   // limit pagination
   if(page) {
     page = parseInt(page)
@@ -53,11 +53,26 @@ export const createData = async (req: Request, res: Response) => {
   })
 };
 
-export const detailsData = async (req: Request, res: Response): Promise<void> => {
+export const detailsData = async (req: Request, res: Response) => {
+  const id: number = parseInt(req.params.id)
+  const data = await detailDataRequestLeaves(id)
 
+  if(!data) return res.status(404).json({
+      status_code: 404,
+      result: 'error',
+      message: 'data not found',
+      data: null
+  })
+
+  return res.json({
+      status_code: 200,
+      result: 'success',
+      message: 'successfully fetch data',
+      data: data
+  })
 };
 
-export const updateRequestLeaveById = async (req: Request, res: Response) => {
+export const updateData = async (req: Request, res: Response) => {
   const data = await updateDataRequestLeave(req)
 
   if(!data) return res.status(404).json({
@@ -74,7 +89,7 @@ export const updateRequestLeaveById = async (req: Request, res: Response) => {
   })
 };
 
-export const deleteRequestLeaveById = async (req: Request, res: Response) => {
+export const deleteData = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id)
   const data = await deleteDataRequestLeave(id)
 

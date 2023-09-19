@@ -64,7 +64,7 @@ export const insertDataRequestLeaves = async (req: Request) => {
 
   try {
     createRequestLeave = {
-      user_id: req.user.id,
+      user_id: req.user.userId,
       reason: reason,
       started_date: started_date,
       ended_date: ended_date,
