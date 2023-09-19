@@ -48,7 +48,6 @@ Example successfully response `Status: 200 OK`
 
 | **Field**     | **Type**    | **Required** |
 | ------------- | ----------  | :----------: |
-| user_id       | int         | true         |
 | product       | string      | true         | 
 | quantity      | int         | true         |
 | ended_date    | datetime    | true         |
