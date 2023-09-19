@@ -1,10 +1,32 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { Request, query } from "express";
+import { getAllUsers } from "../api/users";
+
+interface Reimburses {
+    id: number,
+    user_id: number,
+    fullname?: string,
+    description: string,
+    type: string,
+    nominal: bigint | string,
+    url_proof: string | null,
+    status: string,
+    created_at: Date,
+    updated_at: Date,
+    deleted_at: Date | null
+}
+
+export interface Userdata {
+    id: number,
+    fullname: string
+}
 
 const prisma = new PrismaClient().$extends({
     query: {
         requestReimburses: {
             async findMany({model, operation, args, query}) {
                 args.where = {
+                    status: args.where?.status,
                     deleted_at: null
                 }
                 return query(args)
@@ -27,26 +49,37 @@ const prisma = new PrismaClient().$extends({
     }
 })
 
-export const getDataReimbursement = async (query: any, skip: number, take: number) => {
+export const getDataReimbursement = async (req: Request, skip: number, take: number) => {
     
-    // TODO: read data based on their roles
+    // FIXME: read data reimbursement based on their roles
+    let reimbursementData: Reimburses[]
+    // let userData: Userdata[] = []
+    let json: Reimburses[] = []
 
-    let data: any
-    try {
-        data = await prisma.requestReimburses.findMany({
-            where: query,
-            skip: skip,
-            take: take
-        })
-    } catch (err) {
-        return null
+    if(req.user.level === "EMPLOYEE") {
+        req.query.user_id = req.user.userId
+        try{
+            reimbursementData = await prisma.requestReimburses.findMany({
+                skip: skip,
+                take: take
+            })
+        } catch (err) {
+            return null
+        }
+    } else {
+        try {
+            reimbursementData = await prisma.requestReimburses.findMany({
+                where: req.query,
+                skip: skip,
+                take: take
+            })
+        } catch (err) {
+            return null
+        }
     }
 
-    let json: any = []
-
-    data.map((value: any) => {
-
-        let data:any = {
+    reimbursementData.map((value: Reimburses) => {
+        let data = {
             id: value.id,
             user_id: value.user_id,
             description: value.description,
@@ -60,7 +93,6 @@ export const getDataReimbursement = async (query: any, skip: number, take: numbe
         }
 
         json.push(data)
-
     })
 
     return json
@@ -84,7 +116,7 @@ export const insertDataReimbursement = async (req: any) => {
         await prisma.requestReimburses.create({
             data: requestReimburses
         })
-    } catch (err: any) {
+    } catch (err: unknown) {
         return false
     }
 
@@ -94,7 +126,7 @@ export const insertDataReimbursement = async (req: any) => {
 
 export const detailsDataReimbursement = async (id: number) => {
 
-    let data: any
+    let data: Reimburses | null
 
     try {
         data = await prisma.requestReimburses.findFirst({
@@ -102,7 +134,7 @@ export const detailsDataReimbursement = async (id: number) => {
                 id: id
             }
         })
-    } catch (error: any) {        
+    } catch (error: unknown) {        
         return false
     } 
 
@@ -112,7 +144,7 @@ export const detailsDataReimbursement = async (id: number) => {
 
 export const updateDataReimbursement = async (req: any) => {
 
-    let data: any
+    let data: Reimburses
     const { description, type, nominal, url_proof } = req.body
         
     try {
@@ -128,7 +160,7 @@ export const updateDataReimbursement = async (req: any) => {
                 url_proof: url_proof
             }
         })
-    } catch (err: any) {
+    } catch (err: unknown) {
         return null
     }
 

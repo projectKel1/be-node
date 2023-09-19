@@ -14,9 +14,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     })
 
     token = req.headers.authorization?.split(' ')[1]
-
+    let user: any
     try {
-        token = jwt.verify(token, secretKey)    
+        user = jwt.verify(token, secretKey)    
     } catch (err: any) {
         if(err.message === 'jwt expired') return res.status(401).json({
             status_code: 401,
@@ -25,7 +25,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         })
     }
 
-    req.user = token    
+    req.user = user 
+    req.user.token = "Bearer " + token
     return next()
 
 }

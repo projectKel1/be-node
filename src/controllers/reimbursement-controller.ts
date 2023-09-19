@@ -5,7 +5,6 @@ export const getAllData = async (req: Request, res: Response) => {
 
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
-    let query: any = req.query
 
     // limit pagination
     if(page) {
@@ -16,7 +15,7 @@ export const getAllData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
     
-    const data = await getDataReimbursement(query, skip, take)
+    const data = await getDataReimbursement(req, skip, take)
 
     if(!data) return res.status(400).json({
         status_code: 400,

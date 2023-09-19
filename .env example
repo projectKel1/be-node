@@ -3,6 +3,7 @@
 SERVER_PORT=
 DEVELOPMENT=true of false
 SECRET_KEY=
+ENDPOINT_URL=
 
 # Database configuration
 
