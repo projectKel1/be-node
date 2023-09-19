@@ -1,4 +1,4 @@
-# Documentation Target Reports ( Work In Progress )
+# Documentation Target Reports
 
 ## API Endpoint
 
