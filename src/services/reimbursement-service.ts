@@ -1,7 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
-import { Request, query } from "express";
+import { Request } from "express";
 
-interface Reimburses {
+export interface Reimburses {
     id: number,
     user_id: number,
     fullname?: string,
@@ -25,6 +25,7 @@ const prisma = new PrismaClient().$extends({
         requestReimburses: {
             async findMany({model, operation, args, query}) {
                 args.where = {
+                    type: args.where?.type,
                     status: args.where?.status,
                     deleted_at: null
                 }
@@ -49,23 +50,23 @@ const prisma = new PrismaClient().$extends({
 })
 
 export const getDataReimbursement = async (req: Request, skip: number, take: number) => {
-    
     // FIXME: read data reimbursement based on their roles
     let reimbursementData: Reimburses[]
     // let userData: Userdata[] = []
     let json: Reimburses[] = []
-
+    
     if(req.user.level === "EMPLOYEE") {
-        req.query.user_id = req.user.userId
+        req.query.id = req.user.userId
         try{
             reimbursementData = await prisma.requestReimburses.findMany({
                 skip: skip,
                 take: take
             })
         } catch (err) {
-            return null
+            throw new Error("invalid params query")
         }
     } else {
+        // TODO: parseint request params query by user_id: id
         try {
             reimbursementData = await prisma.requestReimburses.findMany({
                 where: req.query,
@@ -73,7 +74,7 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
                 take: take
             })
         } catch (err) {
-            return null
+            throw new Error("invalid params query")
         }
     }
 
@@ -115,7 +116,7 @@ export const insertDataReimbursement = async (req: Request) => {
             data: requestReimburses
         })
     } catch (err: unknown) {
-        return false
+        throw new Error("internal server error")
     }
 
     return true
@@ -133,7 +134,7 @@ export const detailsDataReimbursement = async (id: number) => {
             }
         })
     } catch (error: unknown) {        
-        return false
+        throw new Error("data not found")
     } 
 
     return data
@@ -159,7 +160,7 @@ export const updateDataReimbursement = async (req: Request) => {
             }
         })
     } catch (err: unknown) {
-        return null
+        throw new Error("record to update not found")
     }
 
     return data
@@ -171,7 +172,7 @@ export const deleteDataReimbursement = async (id: number) => {
     try {
         await prisma.requestReimburses.softDelete(id)
     } catch (err) {
-        return null
+        return false
     }
 
     return true

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { checkoutAttendances, createDataAttendances, detailsDataAttendances, getDataAttendances } from "../services/attendances-service";
+import { Attendance } from "@prisma/client";
 
 export const getData = async (req: Request, res: Response) => {
 
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
     let query: any = req.query
+    let data: Attendance[]
 
     // limit pagination
     if(page) {
@@ -21,13 +23,15 @@ export const getData = async (req: Request, res: Response) => {
         if(query.is_checkout == "false") query.is_checkout = false
     }
 
-    const data = await getDataAttendances(query, skip, take)
-
-    if(!data) return res.status(400).json({
-        status_code: 400,
-        result: 'error',
-        message: 'invalid params query'
-    })
+    try {
+        data = await getDataAttendances(query, skip, take)
+    } catch (err: any) {
+        return res.status(400).json({
+            status_code: 400,
+            result: 'error',
+            message: 'invalid params query'
+        })
+    }
 
     if(!data.length && page) return res.status(404).json({
         status_code: 404,
@@ -46,13 +50,15 @@ export const getData = async (req: Request, res: Response) => {
 
 export const createData = async (req: Request, res: Response) => {
     
-    const data = await createDataAttendances(req.user.userId)
-
-    if(!data) return res.status(500).json({
-        status_code: 500,
-        result: 'error',
-        message: 'internal server error'
-    })
+    try {
+        await createDataAttendances(req.user.userId)
+    } catch (err: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: err.message
+        })
+    }
 
     return res.json({
         status_code: 200,
@@ -65,7 +71,7 @@ export const createData = async (req: Request, res: Response) => {
 export const detailsData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data = await detailsDataAttendances(id)
+    const data: Attendance | null = await detailsDataAttendances(id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -86,7 +92,7 @@ export const detailsData = async (req: Request, res: Response) => {
 export const updateData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data = await checkoutAttendances(id)
+    const data: boolean = await checkoutAttendances(id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
