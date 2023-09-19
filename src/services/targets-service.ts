@@ -12,7 +12,20 @@ export interface targetType {
     deleted_at: Date | null
 }
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient().$extends({
+    query: {
+        target: {
+            async findMany({model, operation, args, query}){
+                args.where = {
+                    // user_id: args.where?.user_id,
+                    deleted_at: null
+                }
+
+                return query(args)
+            }
+        }
+    }
+})
 
 export const getDataTargets = async (req: Request, skip: number, take: number) => {
 
