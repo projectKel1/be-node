@@ -24,6 +24,21 @@ const prisma = new PrismaClient().$extends({
                 return query(args)
             }
         }
+    },
+    model: {
+        target: {
+            async softDelete(id: number, userId: number){
+                await prisma.target.update({
+                    where: {
+                        id: id,
+                        user_id: userId
+                    },
+                    data: {
+                        deleted_at: new Date().toISOString()
+                    }
+                })
+            }
+        }
     }
 })
 
@@ -90,7 +105,8 @@ export const updateDataTarget = async (req: Request) => {
     try {
         data = await prisma.target.update({
             where: {
-                id: parseInt(req.params.id)
+                id: parseInt(req.params.id),
+                user_id: req.user.userId
             },
             data: {
                 product: product,
@@ -103,5 +119,17 @@ export const updateDataTarget = async (req: Request) => {
     }
 
     return data
+
+}
+
+export const deleteDataTarget = async (req: Request, id: number) => {
+
+    try {
+        await prisma.target.softDelete(id, req.user.userId)
+    } catch (err) {
+        return false
+    }
+
+    return true
 
 }

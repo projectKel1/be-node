@@ -16,7 +16,6 @@ https://node.flattenbot.site
 | page           | int          | current page          | false        |
 | type           | string       | search by type data   | false        |
 | status         | string       | search by status data | false        |
-| user           | int          | search by user id     | false        |
 
 - Available value
 
