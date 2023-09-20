@@ -88,7 +88,6 @@ https://node.flattenbot.site
 
 | **Field**     | **Type**    | **Required** |
 | ------------- | ----------  | :----------: |
-| user_id       | int         | true         |
 | description   | string      | true         |
 | type          | string      | true         |
 | nominal       | bigInt      | true         |

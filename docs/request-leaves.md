@@ -61,7 +61,6 @@ https://node.flattenbot.site
 
 | **Field**     | **Type**    | **Required** |
 | ------------- | ----------  | :----------: |
-| user_id       | string      | true         |
 | reason        | string      | true         | 
 | started_date  | datetime    | true         |
 | ended_date    | datetime    | true         |
