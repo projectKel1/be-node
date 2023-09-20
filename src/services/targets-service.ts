@@ -67,3 +67,16 @@ export const insertDataTarget = async (req: Request) => {
     return true
 
 }
+
+export const detailsDataTarget = async (req: Request, id: number) => {
+
+    const data: targetType | null = await prisma.target.findFirst({
+        where: {
+            id: id
+        }
+    })
+
+    if(req.user.level == "EMPLOYEE" && data?.user_id != req.user.userId) return null
+    else return data
+
+}
