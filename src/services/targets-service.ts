@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client"
 import { Request } from "express"
 
-export interface targetType {
+export interface Target {
     id: number,
     user_id: number,
     product: string,
@@ -17,7 +17,7 @@ const prisma = new PrismaClient().$extends({
         target: {
             async findMany({model, operation, args, query}){
                 args.where = {
-                    // user_id: args.where?.user_id,
+                    user_id: args.where?.user_id,
                     deleted_at: null
                 }
 
@@ -29,8 +29,9 @@ const prisma = new PrismaClient().$extends({
 
 export const getDataTargets = async (req: Request, skip: number, take: number) => {
 
-    let data: targetType[]
+    let data: Target[]
     try {
+        req.query.user_id = req.user.userId
         data = await prisma.target.findMany({
             where: req.query,
             skip: skip,
@@ -70,7 +71,7 @@ export const insertDataTarget = async (req: Request) => {
 
 export const detailsDataTarget = async (req: Request, id: number) => {
 
-    const data: targetType | null = await prisma.target.findFirst({
+    const data: Target | null = await prisma.target.findFirst({
         where: {
             id: id
         }
@@ -78,5 +79,29 @@ export const detailsDataTarget = async (req: Request, id: number) => {
 
     if(req.user.level == "EMPLOYEE" && data?.user_id != req.user.userId) return null
     else return data
+
+}
+
+export const updateDataTarget = async (req: Request) => {
+
+    let data: Target
+    const { product, quantity, ended_date } = req.body
+
+    try {
+        data = await prisma.target.update({
+            where: {
+                id: parseInt(req.params.id)
+            },
+            data: {
+                product: product,
+                quantity: parseInt(quantity),
+                ended_date: ended_date
+            }
+        })
+    } catch (err: unknown) {
+        throw new Error("record to update not found")
+    }
+
+    return data
 
 }
