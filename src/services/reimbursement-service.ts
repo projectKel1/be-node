@@ -1,5 +1,6 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Request } from "express";
+import { getAllUsers } from "../api/users";
 
 export interface Reimburses {
     id: number,
@@ -15,7 +16,7 @@ export interface Reimburses {
     deleted_at: Date | null
 }
 
-export interface Userdata {
+export interface UserData {
     id: number,
     fullname: string
 }
@@ -25,6 +26,7 @@ const prisma = new PrismaClient().$extends({
         requestReimburses: {
             async findMany({model, operation, args, query}) {
                 args.where = {
+                    user_id: args.where?.user_id,
                     type: args.where?.type,
                     status: args.where?.status,
                     deleted_at: null
@@ -35,9 +37,10 @@ const prisma = new PrismaClient().$extends({
     },
     model: {
         requestReimburses: {
-            async softDelete(id: number) {
+            async softDelete(userId: number, id: number) {
                 await prisma.requestReimburses.update({
                     where: {
+                        user_id: userId,
                         id: id
                     },
                     data: {
@@ -50,52 +53,67 @@ const prisma = new PrismaClient().$extends({
 })
 
 export const getDataReimbursement = async (req: Request, skip: number, take: number) => {
-    // FIXME: read data reimbursement based on their roles
-    let reimbursementData: Reimburses[]
-    // let userData: Userdata[] = []
-    let json: Reimburses[] = []
-    
-    if(req.user.level === "EMPLOYEE") {
-        req.query.id = req.user.userId
-        try{
-            reimbursementData = await prisma.requestReimburses.findMany({
-                skip: skip,
-                take: take
-            })
-        } catch (err) {
-            throw new Error("invalid params query")
-        }
-    } else {
-        // TODO: parseint request params query by user_id: id
+
+    let reimbursement: Reimburses[] = []
+    let userdata: UserData[] | null = []
+    let json: any[] = []
+
+    if(req.user.level == "EMPLOYEE") {
+
+        req.query.user_id = req.user.userId 
+        
         try {
-            reimbursementData = await prisma.requestReimburses.findMany({
+            reimbursement = await prisma.requestReimburses.findMany({
                 where: req.query,
                 skip: skip,
                 take: take
             })
+
+            for(let data of reimbursement) {
+                data.fullname = req.user.full_name
+                data.nominal = data.nominal.toString()
+            }
         } catch (err) {
             throw new Error("invalid params query")
         }
+
+        return reimbursement
+
+    } else {
+
+        userdata = await getAllUsers(req, req.user.userId)
+        
+        reimbursement = await prisma.requestReimburses.findMany({
+            where: req.query,
+            skip: skip,
+            take: take
+        })
+
+        reimbursement.map((value: Reimburses) => {
+            let user = userdata?.find((user: UserData) => {
+                return user.id == value.user_id
+            })
+            
+            let data = {
+                id: value.id,
+                user_id: value.user_id,
+                fullname: user?.fullname,
+                description: value.description,
+                type: value.type,
+                nominal: value.nominal.toString(),
+                url_proof: value.url_proof,
+                status: value.status,
+                created_at: value.created_at,
+                updated_at: value.updated_at,
+                deleted_at: value.deleted_at
+            }
+
+            json.push(data)
+        })
+
+        return json.filter((value: any) => value.fullname !== undefined)
+        
     }
-
-    reimbursementData.map((value: Reimburses) => {
-        let data = {
-            id: value.id,
-            user_id: value.user_id,
-            description: value.description,
-            type: value.type,
-            nominal: value.nominal.toString(),
-            url_proof: value.url_proof,
-            status: value.status,
-            created_at: value.created_at,
-            updated_at: value.updated_at,
-            deleted_at: value.deleted_at
-        }
-
-        json.push(data)
-    })
-
-    return json
 
 }
 
@@ -123,20 +141,15 @@ export const insertDataReimbursement = async (req: Request) => {
 
 }
 
-export const detailsDataReimbursement = async (id: number) => {
+export const detailsDataReimbursement = async (req: Request, id: number) => {
 
-    let data: Reimburses | null
+    const data: Reimburses | null = await prisma.requestReimburses.findFirst({
+        where: {
+            id: id
+        }
+    })
 
-    try {
-        data = await prisma.requestReimburses.findFirst({
-            where: {
-                id: id
-            }
-        })
-    } catch (error: unknown) {        
-        throw new Error("data not found")
-    } 
-
+    if(req.user.level == "EMPLOYEE" && data?.user_id !== req.user.userId) return null
     return data
 
 }
@@ -145,12 +158,14 @@ export const updateDataReimbursement = async (req: Request) => {
 
     let data: Reimburses
     const { description, type, nominal, url_proof } = req.body
-        
+    let query: any = {}
+
+    query.id = parseInt(req.params.id)
+    if(req.user.level == "EMPLOYEE") query.user_id = req.user.userId
+
     try {
         data = await prisma.requestReimburses.update({
-            where: {
-                id: parseInt(req.params.id)
-            },
+            where: query,
             data: {
                 user_id: req.user.id,
                 description: description,
@@ -167,10 +182,10 @@ export const updateDataReimbursement = async (req: Request) => {
 
 }
 
-export const deleteDataReimbursement = async (id: number) => {
+export const deleteDataReimbursement = async (req: Request, id: number) => {
 
     try {
-        await prisma.requestReimburses.softDelete(id)
+        await prisma.requestReimburses.softDelete(req.user.userId, id)
     } catch (err) {
         return false
     }
