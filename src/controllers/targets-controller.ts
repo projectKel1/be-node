@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getDataTargets, insertDataTarget, targetType } from "../services/targets-service";
+import { detailsDataTarget, getDataTargets, insertDataTarget, targetType } from "../services/targets-service";
 
 export const getAllData = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -58,6 +58,26 @@ export const createData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'record has been created'
+    })
+
+}
+
+export const detailsData = async (req: Request, res: Response) => {
+
+    const id = parseInt(req.params.id)
+    const data: targetType | null = await detailsDataTarget(req, id)
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'data not found'
+    }) 
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully fetch data',
+        data: data
     })
 
 }
