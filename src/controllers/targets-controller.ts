@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Target, detailsDataTarget, getDataTargets, insertDataTarget, updateDataTarget } from "../services/targets-service";
+import { Target, deleteDataTarget, detailsDataTarget, getDataTargets, insertDataTarget, updateDataTarget } from "../services/targets-service";
 
 export const getAllData = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -101,6 +101,25 @@ export const updateData = async (req: Request, res: Response) => {
         result: 'success',
         message: 'successfuly update data',
         data: data
+    })
+
+}
+
+export const deleteData = async (req: Request, res: Response) => {
+
+    const id = parseInt(req.params.id)
+    const data: boolean = await deleteDataTarget(req, id)
+
+    if(!data) return res.status(404).json({
+        status_code: 404,
+        result: 'error',
+        message: 'record to delete not found'
+    })
+
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'successfully deleted data'
     })
 
 }
