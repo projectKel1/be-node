@@ -15,7 +15,6 @@ https://node.flattenbot.site
 | **Params**     | **Type**     | **Description**       | **Required** |
 | -------------  | ------------ | --------------------- | :----------: |
 | page           | int          | current page          | false        |
-| status         | string       | search by status data | false        |
 | user           | int          | search by user id     | false        |
 
 Example successfully response `Status: 200 OK`

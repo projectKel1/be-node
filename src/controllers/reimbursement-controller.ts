@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { deleteDataReimbursement, detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
+import { Reimburses, deleteDataReimbursement, detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
 
 export const getAllData = async (req: Request, res: Response) => {
 
+    let data: Reimburses[] = []
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
 
@@ -15,13 +16,15 @@ export const getAllData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
     
-    const data = await getDataReimbursement(req, skip, take)
-
-    if(!data) return res.status(400).json({
-        status_code: 400,
-        result: 'error',
-        message: 'invalid params query'
-    })
+    try {
+        data = await getDataReimbursement(req, skip, take)
+    } catch (err: any) {
+        return res.status(400).json({
+            status_code: 400,
+            result: 'error',
+            message: err.message
+        })
+    }
 
     if(!data.length && page) return res.status(404).json({
         status_code: 404,
@@ -41,13 +44,15 @@ export const getAllData = async (req: Request, res: Response) => {
 
 export const createData = async (req: Request, res: Response) => {
 
-    const data = await insertDataReimbursement(req)
-
-    if(!data) return res.status(500).json({
-        status_code: 500,
-        result: 'error',
-        message: 'internal server error'
-    })
+    try {
+        await insertDataReimbursement(req)
+    } catch (err: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: err.message
+        })
+    }
 
     return res.json({
         status_code: 200,
@@ -60,7 +65,7 @@ export const createData = async (req: Request, res: Response) => {
 export const detailsData = async (req: Request, res: Response) => {
 
     const id: number = parseInt(req.params.id)
-    const data = await detailsDataReimbursement(id)
+    let data: Reimburses | null = await detailsDataReimbursement(id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -69,7 +74,7 @@ export const detailsData = async (req: Request, res: Response) => {
         data: null
     })
 
-    data.nominal = data.nominal.toString()
+    if(data) data.nominal = data.nominal.toString()
 
     return res.json({
         status_code: 200,
@@ -82,14 +87,18 @@ export const detailsData = async (req: Request, res: Response) => {
 
 export const updateData = async (req: Request, res: Response) => {
 
-    const data = await updateDataReimbursement(req)
+    let data: Reimburses | null
 
-    if(!data) return res.status(404).json({
-        status_code: 401,
-        result: 'error',
-        message: 'record to update not found'
-    })
-        
+    try {
+        data = await updateDataReimbursement(req)
+    } catch (err: any) {
+        return res.status(404).json({
+            status_code: 404,
+            result: 'error',
+            message: err.message
+        })
+    }
+
     data.nominal = data.nominal.toString()
 
     return res.json({
@@ -104,7 +113,7 @@ export const updateData = async (req: Request, res: Response) => {
 export const deleteData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data = await deleteDataReimbursement(id)
+    const data: boolean = await deleteDataReimbursement(id)
 
     if(!data) return res.status(404).json({
         status_code: 404,

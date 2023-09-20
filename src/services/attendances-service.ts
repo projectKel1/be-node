@@ -37,7 +37,7 @@ export const getDataAttendances = async (query: Attendances, skip: number, take:
             take: take
         })
     } catch (err) {
-        return null
+        throw new Error("Invalid params query")
     }
 
     return data
@@ -56,7 +56,7 @@ export const createDataAttendances = async (userId: number) => {
             }
         })
     } catch (err: unknown) {
-        return err
+        throw new Error("internal server error")
     }
 
     return data
@@ -77,14 +77,12 @@ export const detailsDataAttendances = async (attendanceId: number) => {
 
 export const checkoutAttendances = async (attendanceId: number) => {
 
-    let data: Attendances | undefined | number
-
     try {
-        data = await prisma.attendance.checkout(attendanceId)
+        await prisma.attendance.checkout(attendanceId)
     } catch (err) {
         return false
     }
 
-    return data
+    return true
 
 }
