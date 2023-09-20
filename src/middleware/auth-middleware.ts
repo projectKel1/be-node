@@ -18,7 +18,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     try {
         user = jwt.verify(token, secretKey)    
     } catch (err: any) {
-        if(err.message === 'jwt expired') return res.status(401).json({
+        return res.status(401).json({
             status_code: 401,
             result: 'error',
             message: 'unauthorized'
