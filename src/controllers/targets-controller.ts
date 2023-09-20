@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getDataTargets, targetType } from "../services/targets-service";
+import { getDataTargets, insertDataTarget, targetType } from "../services/targets-service";
 
 export const getAllData = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -38,6 +38,26 @@ export const getAllData = async (req: Request, res: Response, next: NextFunction
         result: 'success',
         message: 'successfully fetch data',
         data: data
+    })
+
+}
+
+export const createData = async (req: Request, res: Response) => {
+
+    try {
+        await insertDataTarget(req)
+    } catch (err: any) {
+        return res.status(500).json({
+            status_code: 500,
+            result: 'error',
+            message: err.message
+        })
+    }
+    
+    return res.json({
+        status_code: 200,
+        result: 'success',
+        message: 'record has been created'
     })
 
 }
