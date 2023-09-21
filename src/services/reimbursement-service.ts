@@ -83,11 +83,15 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
 
         userdata = await getAllUsers(req, req.user.userId)
         
-        reimbursement = await prisma.requestReimburses.findMany({
-            where: req.query,
-            skip: skip,
-            take: take
-        })
+        try {
+            reimbursement = await prisma.requestReimburses.findMany({
+                where: req.query,
+                skip: skip,
+                take: take
+            })
+        } catch (err) {
+            throw new Error("invalid params query")
+        }
 
         reimbursement.map((value: Reimburses) => {
             let user = userdata?.find((user: UserData) => {

@@ -6,7 +6,6 @@ export const getData = async (req: Request, res: Response) => {
 
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
-    let query: any = req.query
     let data: Attendance[]
 
     // limit pagination
@@ -18,13 +17,8 @@ export const getData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
 
-    if(query.is_checkout) {
-        if(query.is_checkout == "true") query.is_checkout = true
-        if(query.is_checkout == "false") query.is_checkout = false
-    }
-
     try {
-        data = await getDataAttendances(query, skip, take)
+        data = await getDataAttendances(req, skip, take)
     } catch (err: any) {
         return res.status(400).json({
             status_code: 400,
@@ -71,7 +65,7 @@ export const createData = async (req: Request, res: Response) => {
 export const detailsData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data: Attendance | null = await detailsDataAttendances(id)
+    const data: Attendance | null = await detailsDataAttendances(req, id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -92,7 +86,7 @@ export const detailsData = async (req: Request, res: Response) => {
 export const updateData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data: boolean = await checkoutAttendances(id)
+    const data: boolean = await checkoutAttendances(req, id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -104,7 +98,6 @@ export const updateData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'successfully update record data',
-        data: data
     })
 
 }

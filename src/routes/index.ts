@@ -11,6 +11,6 @@ const router = express.Router()
 router.use('/request-leaves', AuthMiddleware, RequestLeaves)
 router.use('/request-reimbursement', AuthMiddleware, RequestReimbursement)
 router.use('/attendances', AuthMiddleware, Attendances)
-router.use('/targets', AuthMiddleware, LevelMiddleware("manager"), Targets)
+router.use('/targets', AuthMiddleware, LevelMiddleware(["manager", "c-level"]), Targets)
 
 export default router

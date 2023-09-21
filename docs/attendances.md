@@ -160,15 +160,7 @@ https://node.flattenbot.site
 {
   "status_code": 200,
   "result": "success",
-  "message": "successfully update record data",
-  "data": {
-    "id": 50,
-    "user_id": 56,
-    "is_checkout": true,
-    "created_at": "2020-09-06T03:19:37.635Z",
-    "updated_at": "2023-09-17T15:54:10.131Z",
-    "deleted_at": null
-  }
+  "message": "successfully update record data"
 }
 ```
 
