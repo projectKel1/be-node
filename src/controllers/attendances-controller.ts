@@ -6,7 +6,6 @@ export const getData = async (req: Request, res: Response) => {
 
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
-    let query: any = req.query
     let data: Attendance[]
 
     // limit pagination
@@ -18,13 +17,8 @@ export const getData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
 
-    if(query.is_checkout) {
-        if(query.is_checkout == "true") query.is_checkout = true
-        if(query.is_checkout == "false") query.is_checkout = false
-    }
-
     try {
-        data = await getDataAttendances(query, skip, take)
+        data = await getDataAttendances(req, skip, take)
     } catch (err: any) {
         return res.status(400).json({
             status_code: 400,
