@@ -16,10 +16,11 @@ interface Attendances {
 const prisma = new PrismaClient().$extends({
     model: {
         attendance: {
-            async checkout(id: number) {
+            async checkout(req: Request, id: number) {
                 return await prisma.attendance.update({
                     where: {
-                        id: id
+                        id: id,
+                        user_id: req.user.userId
                     },
                     data: {
                         is_checkout: true
@@ -36,6 +37,11 @@ export const getDataAttendances = async (req: Request, skip: number, take: numbe
     let user: UserData[] | null
     let json: any = []
     let query: any = req.query
+
+    if(query.is_checkout) {
+        if(query.is_checkout == "true") query.is_checkout = true
+        if(query.is_checkout == "false") query.is_checkout = false
+    }
 
     if(req.user.level == "EMPLOYEE") {
 
@@ -74,7 +80,7 @@ export const getDataAttendances = async (req: Request, skip: number, take: numbe
             let data = {
                 id: value.id,
                 user_id: value.user_id,
-                fullname: username,
+                fullname: username?.fullname,
                 is_checkout: value.is_checkout,
                 created_at: value.created_at,
                 updated_at: value.updated_at,
@@ -108,11 +114,12 @@ export const createDataAttendances = async (userId: number) => {
 
 }
 
-export const detailsDataAttendances = async (attendanceId: number) => {
+export const detailsDataAttendances = async (req: Request, attendanceId: number) => {
 
     const data = await prisma.attendance.findFirst({
         where: {
-            id: attendanceId
+            id: attendanceId,
+            user_id: req.user.userId
         }
     })
 
@@ -120,10 +127,10 @@ export const detailsDataAttendances = async (attendanceId: number) => {
 
 }
 
-export const checkoutAttendances = async (attendanceId: number) => {
+export const checkoutAttendances = async (req: Request,attendanceId: number) => {
 
     try {
-        await prisma.attendance.checkout(attendanceId)
+        await prisma.attendance.checkout(req, attendanceId)
     } catch (err) {
         return false
     }

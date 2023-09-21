@@ -65,7 +65,7 @@ export const createData = async (req: Request, res: Response) => {
 export const detailsData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data: Attendance | null = await detailsDataAttendances(id)
+    const data: Attendance | null = await detailsDataAttendances(req, id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -86,7 +86,7 @@ export const detailsData = async (req: Request, res: Response) => {
 export const updateData = async (req: Request, res: Response) => {
 
     const id = parseInt(req.params.id)
-    const data: boolean = await checkoutAttendances(id)
+    const data: boolean = await checkoutAttendances(req, id)
 
     if(!data) return res.status(404).json({
         status_code: 404,
@@ -98,7 +98,6 @@ export const updateData = async (req: Request, res: Response) => {
         status_code: 200,
         result: 'success',
         message: 'successfully update record data',
-        data: data
     })
 
 }
