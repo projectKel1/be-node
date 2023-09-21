@@ -58,7 +58,7 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
     let userdata: UserData[] | null = []
     let json: any[] = []
 
-    if(req.user.level == "EMPLOYEE") {
+    if(req.user.level == "Employee") {
 
         req.query.user_id = req.user.userId 
         
@@ -116,7 +116,7 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
         })
 
         return json.filter((value: any) => value.fullname !== undefined)
-        
+
     }
 
 }
