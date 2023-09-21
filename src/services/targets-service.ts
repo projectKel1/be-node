@@ -92,7 +92,7 @@ export const detailsDataTarget = async (req: Request, id: number) => {
         }
     })
 
-    if(req.user.level == "EMPLOYEE" && data?.user_id != req.user.userId) return null
+    if(req.user.level == "Employee" && data?.user_id != req.user.userId) return null
     else return data
 
 }
