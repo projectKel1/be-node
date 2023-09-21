@@ -43,7 +43,7 @@ export const getDataAttendances = async (req: Request, skip: number, take: numbe
         if(query.is_checkout == "false") query.is_checkout = false
     }
 
-    if(req.user.level == "EMPLOYEE") {
+    if(req.user.level == "Employee") {
 
         query.user_id = req.user.userId
         try {

@@ -1,20 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { Request } from "express";
+import { Reimburses } from "../repositories/reimbursement";
 import { getAllUsers } from "../api/users";
-
-export interface Reimburses {
-    id: number,
-    user_id: number,
-    fullname?: string,
-    description: string,
-    type: string,
-    nominal: bigint | string,
-    url_proof: string | null,
-    status: string,
-    created_at: Date,
-    updated_at: Date,
-    deleted_at: Date | null
-}
 
 export interface UserData {
     id: number,
@@ -153,7 +140,7 @@ export const detailsDataReimbursement = async (req: Request, id: number) => {
         }
     })
 
-    if(req.user.level == "EMPLOYEE" && data?.user_id !== req.user.userId) return null
+    if(req.user.level == "Employee" && data?.user_id !== req.user.userId) return null
     return data
 
 }
@@ -165,7 +152,7 @@ export const updateDataReimbursement = async (req: Request) => {
     let query: any = {}
 
     query.id = parseInt(req.params.id)
-    if(req.user.level == "EMPLOYEE") query.user_id = req.user.userId
+    if(req.user.level == "Employee") query.user_id = req.user.userId
 
     try {
         data = await prisma.requestReimburses.update({

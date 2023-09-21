@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { Reimburses, deleteDataReimbursement, detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
+import { deleteDataReimbursement, detailsDataReimbursement, getDataReimbursement, insertDataReimbursement, updateDataReimbursement } from '../services/reimbursement-service'
+import { Reimburses } from "../repositories/reimbursement";
 
 export const getAllData = async (req: Request, res: Response) => {
 
