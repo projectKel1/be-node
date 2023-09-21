@@ -83,3 +83,29 @@ model Target {
 
   @@map("targets")
 }
+
+model Targets {
+  id            Int               @id @default(autoincrement())
+  targetReports Target_Report[]
+}
+
+model Target_Report {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  target      Targets       @relation(fields: [target_id], references: [id])
+  target_id   Int
+  status      EnumTargerReportStatus  @default(pending)
+  url_proof   String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  deleted_at  DateTime?
+
+  @@map("target_reports")
+}
+
+enum EnumTargerReportStatus {
+  pending
+  approved_lead
+  approved_hr
+  reject
+}
