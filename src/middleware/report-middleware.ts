@@ -13,23 +13,6 @@ export const validateInput = async (req: Request, res: Response, next: NextFunct
                 'string.empty': 'product field cannot have an empty value',
                 'string.min': 'product field cannot be less than 3 characters'
             }),
-        quantity: Joi.number()
-            .required()
-            .empty()
-            .min(1)
-            .messages({
-                'any.base': 'quantity field must be a number',
-                'any.required': 'quantity field is required',
-                'string.empty': 'quantity field cannot have an empty value',
-                'number.min': 'quantity field cannot be less than 1'
-            }),
-        ended_date: Joi.date()
-            .required()
-            .empty()
-            .messages({
-                'any.required': 'ended_date field is required',
-                'string.empty': 'ended_date field cannot have an empty value',
-            }),
         url_proof: Joi.string()
             .trim()
             .pattern(/^\S*$/, {name: 'url_proof'})
