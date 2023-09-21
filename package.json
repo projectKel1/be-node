@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "nodemon ./src/main.ts",
     "build": "npx tsc --build",
-    "start": "node ./build/main.js",
+    "start": "node ./app/build/main.js",
     "seed": "ts-node ./prisma/seeders/index.ts"
   },
   "dependencies": {
