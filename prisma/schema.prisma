@@ -83,3 +83,22 @@ model Target {
 
   @@map("targets")
 }
+
+model Report_Target {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  target_id   Int
+  status      EnumReportTargetStatus        @default(pending)
+  url_proof   String
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+  deleted_at  DateTime?
+
+  @@map("report_targets")
+}
+
+enum EnumReportTargetStatus {
+  pending
+  reject
+  approved
+}

@@ -1,61 +1,97 @@
 import { PrismaClient } from "@prisma/client";
+import { Request } from "express";
+import { getAllUsers } from "../api/users";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient();
 
-export const getAllTargetReports = async (
-  skip: number,
-  take: number,
-  status: any,
-  user: any
-) => {
-  return await prisma.targetReport.findMany({
-    skip,
-    take,
-    where: {
-      status,
-      user,
-    },
-  });
-};
+export interface TargetReport {
+  id: number;
+  user_id: any;
+  fullname?: string;
+  target_id: number;
+  status: string;
+  url_proof: string | null;
+  created_at: Date;
+  updated_at: Date;
+  deleted_at: Date | null;
+}
 
-export const createTargetReportRecord = async (
-  user_id: any,
-  target_id: any,
-  status: any,
-  url_proof: any
+export interface UserData {
+  id: number;
+  fullname: string;
+}
+
+export const getAllTargetReports = async (
+  req: Request,
+  skip: number,
+  take: number
 ) => {
-  try {
-    await prisma.targetReport.create({
-      data: {
-        user_id,
-        target_id,
-        status,
-        url_proof,
-      },
+  let targetReports: TargetReport[] = [];
+  let userdata: UserData[] | null = [];
+  let json: any[] = [];
+
+  if (req.user.level == "EMPLOYEE") {
+    req.query.user_id = req.user.userId;
+
+    try {
+      const report_Targets = await prisma.report_Target.findMany({
+        where: req.query,
+        skip: skip,
+        take: take,
+      });
+
+      for (let data of targetReports) {
+        data.fullname = req.user.full_name;
+      }
+    } catch (err) {
+      throw new Error("invalid params query");
+    }
+
+    return targetReports;
+  } else {
+    userdata = await getAllUsers(req, req.user.userId);
+
+    const report_Targets = await prisma.report_Target.findMany({
+      where: req.query,
+      skip: skip,
+      take: take,
     });
 
-    return {
-      status_code: 200,
-      result: 'success',
-      message: 'record has been created',
-    };
-  } catch (error) {
-    return {
-      status_code: 400,
-      result: 'error',
-      message: 'status field is required',
-    };
+    targetReports.map((value: TargetReport) => {
+      let user = userdata?.find((user: UserData) => {
+        return user.id == value.user_id;
+      });
+
+      let data = {
+        id: value.id,
+        user_id: value.user_id,
+        fullname: user?.fullname,
+        target_id: value.target_id,
+        status: value.status,
+        url_proof: value.url_proof,
+        created_at: value.created_at,
+        updated_at: value.updated_at,
+        deleted_at: value.deleted_at,
+      };
+
+      json.push(data);
+    });
+
+    return json.filter((value: any) => value.fullname !== undefined);
   }
 };
 
+
 export const getTargetReportDetails = async (id: string) => {
-  const targetReport = await prisma.targetReport.findUnique({
+  const idNumber = parseInt(id);
+  const gettargetReport = await prisma.report_Target.findUnique({
     where: {
-      id,
+      id: idNumber,
     },
   });
 
-  if (!targetReport) {
+  if (!gettargetReport) {
     return {
       status_code: 404,
       result: 'error',
@@ -68,19 +104,29 @@ export const getTargetReportDetails = async (id: string) => {
     status_code: 200,
     result: 'success',
     message: 'successfully fetch data',
-    data: targetReport,
+    data: gettargetReport,
   };
 };
 
+export const createTargetReportRecord = async (
+  id: any,
+  user_id: any,
+  target_id: any,
+  status: DefaultArgs | null,
+) => {
+  if (!id || !user_id || !target_id || status === null) {
+    throw new Error('All arguments must be filled in');
+  }
+}
+
 export const updateTargetReportRecord = async (
-  id: string,
+  id: any,
   user_id: any,
   target_id: any,
   status: any,
-  url_proof: any
 ) => {
   try {
-    const updatedTargetReport = await prisma.targetReport.update({
+    const updatedTargetReport = await prisma.report_Target.update({
       where: {
         id,
       },
@@ -88,7 +134,6 @@ export const updateTargetReportRecord = async (
         user_id,
         target_id,
         status,
-        url_proof,
       },
     });
 
@@ -117,9 +162,10 @@ export const updateTargetReportRecord = async (
 };
 
 export const deleteTargetReportRecord = async (id: string) => {
-  const deleted = await prisma.targetReport.softdelete({
+  const idNumber = parseInt(id);
+  const deleted = await prisma.report_Target.delete({
     where: {
-      id,
+      id: idNumber,
     },
   });
 

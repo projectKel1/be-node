@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { 
-    getAllTargetReports, 
-    createTargetReportRecord, 
-    getTargetReportDetails, 
-    updateTargetReportRecord, 
-    deleteTargetReportRecord, 
+    getAllTargetReports,
+    getTargetReportDetails,
+    updateTargetReportRecord,
+    deleteTargetReportRecord,
+    createTargetReportRecord,
 } from '../services/report-service';
 
 
@@ -12,7 +12,7 @@ export const getAllData = async (req: Request, res: Response) => {
     let skip: number = 0, take: number = 5
     let page: any = req.query.page
     let status: any = req.query.status
-    let user: any = req.query.user
+    let user_id: any = req.query.user
 
     // limit pagination
     if(page) {
@@ -23,7 +23,7 @@ export const getAllData = async (req: Request, res: Response) => {
 
     if(page) delete req.query.page
 
-    const targetReports: any = await getAllTargetReports(skip, take, status, user)
+    const targetReports: any = await getAllTargetReports(page, status, user_id)
     res.status(200).json({
         status_code: 200,
         result: 'success',
@@ -73,7 +73,7 @@ export const updateData = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
         const { user_id, target_id, status, url_proof } = req.body;
-        const updatedTargetReport = await updateTargetReportRecord(id, user_id, target_id, status, url_proof);
+        const updatedTargetReport = await updateTargetReportRecord(id, user_id, target_id, status,);
         if (!updatedTargetReport) {
             return res.status(404).json({
                 status_code: 404,
