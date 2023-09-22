@@ -21,8 +21,9 @@ jobs:
           script: |
             cd be-node/
             git pull origin master
-            docker stop be-container-1
-            docker rm be-container-1
-            docker rmi be-node
-            docker build -t be-node .
-            docker run -d -p 3000:3000 -e SERVER_PORT=${{ secrets.SERVER_PORT }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e ENDPOINT_URL=${{ secrets.ENDPOINT_URL }} -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e SHADOW_DATABASE_URL=${{ secrets.SHADOW_DATABASE_URL }} --name be-container-1 be-node
+            npm install
+            npx prisma generate
+            npx prisma migrate dev
+            npx prisma db push
+            npm run build
+            pm2 restart be-node

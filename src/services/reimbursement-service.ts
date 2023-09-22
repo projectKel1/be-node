@@ -45,7 +45,7 @@ export const getDataReimbursement = async (req: Request, skip: number, take: num
     let userdata: UserData[] | null = []
     let json: any[] = []
 
-    if(req.user.level == "Employee") {
+    if(req.user.level.toLowerCase() == "employee") {
 
         req.query.user_id = req.user.userId 
         
