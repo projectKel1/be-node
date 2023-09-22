@@ -2,16 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client"
 import { Request } from "express"
 import { UserData } from "./reimbursement-service"
 import { getAllUsers } from "../api/users"
-
-interface Attendances {
-    id: number,
-    user_id: number,
-    fullname?: string | undefined,
-    is_checkout: boolean,
-    created_at: Date,
-    updated_at: Date,
-    deleted_at: Date | null
-}
+import { Attendances } from '../repositories/attendances'
 
 const prisma = new PrismaClient().$extends({
     model: {
@@ -43,7 +34,7 @@ export const getDataAttendances = async (req: Request, skip: number, take: numbe
         if(query.is_checkout == "false") query.is_checkout = false
     }
 
-    if(req.user.level == "EMPLOYEE") {
+    if(req.user.level == "Employee") {
 
         query.user_id = req.user.userId
         try {

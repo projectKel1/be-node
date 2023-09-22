@@ -27,6 +27,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     req.user = user 
     req.user.token = "Bearer " + token
+    console.log(req.user.level.toLowerCase());
+    
     return next()
 
 }

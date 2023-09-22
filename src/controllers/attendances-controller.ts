@@ -19,11 +19,11 @@ export const getData = async (req: Request, res: Response) => {
 
     try {
         data = await getDataAttendances(req, skip, take)
-    } catch (err: any) {
+    } catch (err: any) {        
         return res.status(400).json({
             status_code: 400,
             result: 'error',
-            message: 'invalid params query'
+            message: err.message
         })
     }
 
