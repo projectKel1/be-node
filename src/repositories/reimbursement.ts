@@ -15,7 +15,21 @@ export interface Reimburses {
     deleted_at: Date | null
 }
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient().$extends({
+    query: {
+        requestReimburses: {
+            async findMany({model, operation, args, query}) {
+                args.where = {
+                    user_id: args.where?.user_id,
+                    type: args.where?.type,
+                    status: args.where?.status,
+                    deleted_at: null
+                }
+                return query(args)
+            },
+        }
+    },
+})
 
 export const getAllData = async (req: Request, skip: number, take: number) => {
 
