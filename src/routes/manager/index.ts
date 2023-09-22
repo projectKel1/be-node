@@ -1,7 +1,9 @@
 import express from 'express'
-import { index } from '../../controllers/manager/reimbursement-controller'
+import ReimbursementRouter from './reimbursement-router'
+import AttendancesRouter from './attendances-router'
 const router = express.Router()
 
-router.get('/request-reimbursement', index)
+router.use('/request-reimbursement', ReimbursementRouter)
+router.use('/attendances', AttendancesRouter)
 
 export default router

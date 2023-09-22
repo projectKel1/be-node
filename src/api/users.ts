@@ -14,6 +14,7 @@ export const getAllUsers = async (req: Request, managerId: number) => {
             manager_id: managerId
         }
     })
+
     const response = request.data.data
     let user: UserData[] = []
 
