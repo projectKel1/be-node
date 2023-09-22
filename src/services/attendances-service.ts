@@ -34,9 +34,10 @@ export const getDataAttendances = async (req: Request, skip: number, take: numbe
         if(query.is_checkout == "false") query.is_checkout = false
     }
 
-    if(req.user.level == "Employee") {
+    if(req.user.level.toLowerCase() == "employee") {
 
         query.user_id = req.user.userId
+        
         try {
             attendances = await prisma.attendance.findMany({
                 where: query,
